@@ -11,7 +11,7 @@ public class PalladiumPropertyUtil {
         EntityPropertyHandler.getHandler(entity).ifPresent(handler -> {
             PalladiumProperty property = handler.getPropertyByName(propertyName);
 
-            if (handler.get(handler.getPropertyByName(propertyName)) != null) {
+            if (handler.get(property) != null) {
                 handler.set(property, PalladiumProperty.fixValues(property, value));
             }
         });
@@ -107,8 +107,8 @@ public class PalladiumPropertyUtil {
         EntityPropertyHandler.getHandler(entity).ifPresent(handler -> {
             PalladiumProperty<?> property = handler.getPropertyByName(propertyName);
 
-            if (handler.get(handler.getPropertyByName(propertyName)) != null) {
-                value.set(PalladiumProperty.fixValues(property, handler.get(handler.getPropertyByName(propertyName))));
+            if (handler.get(property) != null) {
+                value.set(PalladiumProperty.fixValues(property, handler.get(property)));
             }
         });
 
@@ -125,8 +125,8 @@ public class PalladiumPropertyUtil {
         EntityPropertyHandler.getHandler(entity).ifPresent(handler -> {
             PalladiumProperty<?> property = handler.getPropertyByName(propertyName);
 
-            if (handler.get(handler.getPropertyByName(propertyName)) != null) {
-                value.set(PalladiumProperty.fixValues(property, handler.get(handler.getPropertyByName(propertyName))));
+            if (handler.get(property) != null) {
+                value.set(PalladiumProperty.fixValues(property, handler.get(property)));
             }
         });
 
@@ -143,8 +143,8 @@ public class PalladiumPropertyUtil {
         EntityPropertyHandler.getHandler(entity).ifPresent(handler -> {
             PalladiumProperty<?> property = handler.getPropertyByName(propertyName);
 
-            if (handler.get(handler.getPropertyByName(propertyName)) != null) {
-                value.set(PalladiumProperty.fixValues(property, handler.get(handler.getPropertyByName(propertyName))));
+            if (handler.get(property) != null) {
+                value.set(PalladiumProperty.fixValues(property, handler.get(property)));
             }
         });
 
@@ -161,8 +161,8 @@ public class PalladiumPropertyUtil {
         EntityPropertyHandler.getHandler(entity).ifPresent(handler -> {
             PalladiumProperty<?> property = handler.getPropertyByName(propertyName);
 
-            if (handler.get(handler.getPropertyByName(propertyName)) != null) {
-                value.set(PalladiumProperty.fixValues(property, handler.get(handler.getPropertyByName(propertyName))));
+            if (handler.get(property) != null) {
+                value.set(PalladiumProperty.fixValues(property, handler.get(property)));
             }
         });
 
@@ -179,8 +179,8 @@ public class PalladiumPropertyUtil {
         EntityPropertyHandler.getHandler(entity).ifPresent(handler -> {
             PalladiumProperty<?> property = handler.getPropertyByName(propertyName);
 
-            if (handler.get(handler.getPropertyByName(propertyName)) != null) {
-                value.set(PalladiumProperty.fixValues(property, handler.get(handler.getPropertyByName(propertyName))));
+            if (handler.get(property) != null) {
+                value.set(PalladiumProperty.fixValues(property, handler.get(property)));
             }
         });
 
@@ -197,8 +197,8 @@ public class PalladiumPropertyUtil {
         EntityPropertyHandler.getHandler(entity).ifPresent(handler -> {
             PalladiumProperty<?> property = handler.getPropertyByName(propertyName);
 
-            if (handler.get(handler.getPropertyByName(propertyName)) != null) {
-                value.set(PalladiumProperty.fixValues(property, handler.get(handler.getPropertyByName(propertyName))));
+            if (handler.get(property) != null) {
+                value.set(PalladiumProperty.fixValues(property, handler.get(property)));
             }
         });
 
