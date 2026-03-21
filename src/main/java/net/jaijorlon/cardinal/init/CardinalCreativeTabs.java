@@ -10,7 +10,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
 public class CardinalCreativeTabs {
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TAB = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Cardinal.MOD_ID);
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TAB = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, net.jaijorlon.cardinal.Cardinal.MOD_ID);
 
     public static final RegistryObject<CreativeModeTab> Cardinal = CREATIVE_MODE_TAB.register("cardinal", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.cardinal"))
