@@ -10,6 +10,10 @@ version="${mod_version}" #mandatory
 authors="${mod_authors}" #optional
 
 description='''${mod_description}'''
+
+[mods."lithium:options"]
+"mixin.entity.collisions.movement"=false
+
 [[dependencies.${mod_id}]] #optional
     modId="forge" #mandatory
     mandatory=true #mandatory
