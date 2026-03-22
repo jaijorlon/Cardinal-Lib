@@ -1,4 +1,4 @@
-package net.jaijorlon.cardinal.command;
+package net.jaijorlon.cardinal.command.argument;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -13,15 +13,23 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
+import net.jaijorlon.cardinal.command.LocalDirection;
 import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.commands.synchronization.SingletonArgumentInfo;
 import net.minecraft.network.chat.Component;
 
 public class LocalDirectionArgumentType implements ArgumentType<LocalDirection> {
-    
+    public static final SingletonArgumentInfo<LocalDirectionArgumentType> INFO = SingletonArgumentInfo.contextFree(LocalDirectionArgumentType::localDirectionArgumentType);
+
     public static final DynamicCommandExceptionType exceptionType =
         new DynamicCommandExceptionType(object ->
             Component.literal("Invalid Local Direction " + object)
         );
+
+    public static LocalDirectionArgumentType localDirectionArgumentType() {
+        System.out.println("Creating Local Direction Argument Type");
+        return new LocalDirectionArgumentType();
+    }
     
     public static LocalDirection getDirection(CommandContext<?> context, String str) {
         return context.getArgument(str, LocalDirection.class);
