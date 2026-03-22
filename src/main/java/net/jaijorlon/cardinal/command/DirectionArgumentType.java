@@ -1,4 +1,4 @@
-package net.jaijorlon.cardinal.command.argument;
+package net.jaijorlon.cardinal.command;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -14,22 +14,15 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
 import net.minecraft.commands.SharedSuggestionProvider;
-import net.minecraft.commands.synchronization.SingletonArgumentInfo;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 
 public class DirectionArgumentType implements ArgumentType<Direction> {
-    public static final SingletonArgumentInfo<DirectionArgumentType> INFO = SingletonArgumentInfo.contextFree(DirectionArgumentType::directionArgumentType);
-
+    
     public static final DynamicCommandExceptionType exceptionType =
         new DynamicCommandExceptionType(object ->
             Component.literal("Invalid Direction " + object)
         );
-
-    public static DirectionArgumentType directionArgumentType() {
-        System.out.println("Creating Direction Argument Type");
-        return new DirectionArgumentType();
-    }
     
     public static Direction getDirection(CommandContext<?> context, String direction) {
         return context.getArgument(direction, Direction.class);
