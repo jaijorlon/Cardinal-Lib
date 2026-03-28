@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import net.jaijorlon.cardinal.Cardinal;
 
+import net.jaijorlon.cardinal.ability.CardinalAbilities;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -20,6 +21,7 @@ import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.threetag.palladium.power.ability.AbilityUtil;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -30,9 +32,30 @@ public class ClientForgeModEvents {
 
     @SubscribeEvent
     public static void onKeyInput(InputEvent.Key event) {
-        // Check if a movement key (e.g., W) is pressed
-        if (Minecraft.getInstance().options.keyUp.matches(event.getKey(), event.getScanCode())) {
-            // Cancel the input before Minecraft processes it
+        Minecraft mc = Minecraft.getInstance();
+        if (!AbilityUtil.isTypeEnabled(mc.player, CardinalAbilities.PREVENT_MOVEMENT_INPUT.get())) return;
+
+        if (mc.options.keyUp.matches(event.getKey(), event.getScanCode())) {
+            event.setCanceled(true);
+        }
+
+        if (mc.options.keyDown.matches(event.getKey(), event.getScanCode())) {
+            event.setCanceled(true);
+        }
+
+        if (mc.options.keyLeft.matches(event.getKey(), event.getScanCode())) {
+            event.setCanceled(true);
+        }
+
+        if (mc.options.keyRight.matches(event.getKey(), event.getScanCode())) {
+            event.setCanceled(true);
+        }
+
+        if (mc.options.keyJump.matches(event.getKey(), event.getScanCode())) {
+            event.setCanceled(true);
+        }
+
+        if (mc.options.keySprint.matches(event.getKey(), event.getScanCode())) {
             event.setCanceled(true);
         }
     }
