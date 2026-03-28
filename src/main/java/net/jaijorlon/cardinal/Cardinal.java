@@ -1,11 +1,12 @@
 package net.jaijorlon.cardinal;
 
+import net.jaijorlon.cardinal.ability.CardinalAbilities;
 import net.jaijorlon.cardinal.capabilities.GravityCapabilities;
 import net.jaijorlon.cardinal.command.GravityCommand;
 import net.jaijorlon.cardinal.command.PalladiumPropertyCommand;
-import net.jaijorlon.cardinal.command.argument.DirectionArgumentType;
-import net.jaijorlon.cardinal.command.argument.LocalDirectionArgumentType;
-import net.jaijorlon.cardinal.command.argument.OperationArgumentType;
+import net.jaijorlon.cardinal.command.DirectionArgumentType;
+import net.jaijorlon.cardinal.command.LocalDirectionArgumentType;
+import net.jaijorlon.cardinal.command.OperationArgumentType;
 import net.jaijorlon.cardinal.config.CardinalConfig;
 import net.jaijorlon.cardinal.init.CardinalBlocks;
 import net.jaijorlon.cardinal.init.CardinalCreativeTabs;
@@ -43,6 +44,7 @@ public class Cardinal {
         CardinalBlocks.BLOCK_ENTITIES.register(bus);
         CardinalMobEffects.EFFECTS.register(bus);
         CardinalMobEffects.POTIONS.register(bus);
+        CardinalAbilities.ABILITIES.register();
         CardinalCreativeTabs.CREATIVE_MODE_TAB.register(bus);
 
         ArgumentTypeInfos.registerByClass(OperationArgumentType.class, SingletonArgumentInfo.contextFree(OperationArgumentType::new));
@@ -53,8 +55,6 @@ public class Cardinal {
             GravityCommand.register(dispatcher);
             PalladiumPropertyCommand.register(dispatcher);
         });
-
-
 
         GravityNetwork.registerMessages();
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, GravityCapabilities::attachEntityCapability);
