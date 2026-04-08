@@ -7,14 +7,10 @@ import net.threetag.palladium.power.ability.AbilityInstance;
 
 public class HideShadowAbility extends Ability {
     @Override
-    public void tick(LivingEntity entity, AbilityInstance entry, IPowerHolder holder, boolean enabled) {
-        if (enabled) {
-
-        }
-    }
+    public void tick(LivingEntity entity, AbilityInstance entry, IPowerHolder holder, boolean enabled) {}
 
     @Override
     public String getDocumentationDescription() {
-        return "move through blocks like a mole.";
+        return "Hides the entity's shadow.";
     }
 }

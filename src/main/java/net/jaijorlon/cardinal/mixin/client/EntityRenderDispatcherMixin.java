@@ -1,5 +1,11 @@
 package net.jaijorlon.cardinal.mixin.client;
 
+import net.jaijorlon.cardinal.Cardinal;
+import net.jaijorlon.cardinal.ability.CardinalAbilities;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.threetag.palladium.power.SuperpowerUtil;
+import net.threetag.palladium.power.ability.AbilityUtil;
 import org.joml.Quaternionf;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -32,9 +38,21 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(EntityRenderDispatcher.class)
 public abstract class EntityRenderDispatcherMixin {
+    /**
+     * @author Jaijorlon
+     * @reason stop shadow from rendering when ability is enabled
+     */
+    @Inject(method = "renderShadow", at = @At("HEAD"), cancellable = true)
+    private static void renderShadow(PoseStack p_114458_, MultiBufferSource p_114459_, Entity p_114460_, float p_114461_, float p_114462_, LevelReader p_114463_, float p_114464_, CallbackInfo ci) {
+        if (p_114460_ instanceof LivingEntity livingEntity) {
+            if (AbilityUtil.isTypeEnabled(livingEntity, CardinalAbilities.HIDE_SHADOW.get())) ci.cancel();
+        }
+    }
+
     @Shadow
     @Final
     private static RenderType SHADOW_RENDER_TYPE;
@@ -44,7 +62,7 @@ public abstract class EntityRenderDispatcherMixin {
     
     @Shadow
     private static void shadowVertex(PoseStack.Pose entry, VertexConsumer vertices, float alpha, float x, float y, float z, float u, float v) {}
-    
+
     @Inject(
         method = "Lnet/minecraft/client/renderer/entity/EntityRenderDispatcher;render(Lnet/minecraft/world/entity/Entity;DDDFFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
         at = @At(
