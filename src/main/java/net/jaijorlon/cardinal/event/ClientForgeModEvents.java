@@ -35,28 +35,28 @@ public class ClientForgeModEvents {
         Minecraft mc = Minecraft.getInstance();
         if (!AbilityUtil.isTypeEnabled(mc.player, CardinalAbilities.PREVENT_MOVEMENT_INPUT.get())) return;
 
-        if (mc.options.keyUp.matches(event.getKey(), event.getScanCode())) {
-            event.setCanceled(true);
+        if (mc.options.keyUp.isDown()) {
+            mc.options.keyUp.setDown(false);
         }
 
-        if (mc.options.keyDown.matches(event.getKey(), event.getScanCode())) {
-            event.setCanceled(true);
+        if (mc.options.keyDown.isDown()) {
+            mc.options.keyDown.setDown(false);
         }
 
-        if (mc.options.keyLeft.matches(event.getKey(), event.getScanCode())) {
-            event.setCanceled(true);
+        if (mc.options.keyLeft.isDown()) {
+            mc.options.keyLeft.setDown(false);
         }
 
-        if (mc.options.keyRight.matches(event.getKey(), event.getScanCode())) {
-            event.setCanceled(true);
+        if (mc.options.keyRight.isDown()) {
+            mc.options.keyRight.setDown(false);
         }
 
-        if (mc.options.keyJump.matches(event.getKey(), event.getScanCode())) {
-            event.setCanceled(true);
+        if (mc.options.keyJump.isDown()) {
+            mc.options.keyJump.setDown(false);
         }
 
-        if (mc.options.keySprint.matches(event.getKey(), event.getScanCode())) {
-            event.setCanceled(true);
+        if (mc.options.keySprint.isDown()) {
+            mc.options.keySprint.setDown(false);
         }
     }
 

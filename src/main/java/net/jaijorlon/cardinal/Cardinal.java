@@ -44,7 +44,6 @@ public class Cardinal {
         CardinalBlocks.BLOCK_ENTITIES.register(bus);
         CardinalMobEffects.EFFECTS.register(bus);
         CardinalMobEffects.POTIONS.register(bus);
-        CardinalAbilities.ABILITIES.register();
         CardinalCreativeTabs.CREATIVE_MODE_TAB.register(bus);
 
         ArgumentTypeInfos.registerByClass(OperationArgumentType.class, SingletonArgumentInfo.contextFree(OperationArgumentType::new));
@@ -62,7 +61,7 @@ public class Cardinal {
     }
 
     public static void init() {
-
+        CardinalAbilities.ABILITIES.register();
     }
 
     public static ResourceLocation id(String path) {
