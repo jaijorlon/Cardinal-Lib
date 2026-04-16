@@ -1,6 +1,5 @@
 package net.jaijorlon.cardinal.util;
 
-import com.mojang.brigadier.arguments.StringArgumentType;
 import net.jaijorlon.cardinal.Cardinal;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.nbt.CompoundTag;
@@ -10,10 +9,8 @@ import net.threetag.palladium.util.property.EntityPropertyHandler;
 import net.threetag.palladium.util.property.PalladiumProperty;
 import net.threetag.palladium.util.property.PalladiumPropertyLookup;
 
-import javax.smartcardio.Card;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class PalladiumPropertyUtil {

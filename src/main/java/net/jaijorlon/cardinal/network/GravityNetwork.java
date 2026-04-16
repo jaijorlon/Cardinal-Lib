@@ -1,7 +1,6 @@
 package net.jaijorlon.cardinal.network;
 
 import net.jaijorlon.cardinal.Cardinal;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;

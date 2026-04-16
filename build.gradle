@@ -32,7 +32,8 @@ base {
 }
 
 mixin {
-    add sourceSets.main, "cardinal-common-refmap.json"
+    add sourceSets.main, "cardinal.refmap.json"
+
     config "cardinal.mixin.json"
 }
 
@@ -82,7 +83,18 @@ minecraft {
     }
 }
 
-sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+sourceSets.main.resources {
+    srcDir 'src/main/resources'
+}
+
+tasks.named('jar', Jar).configure {
+    from sourceSets.main.output
+}
+
+jar {
+    dependsOn processResources
+}
 
 repositories {
 // ThreeTAG
@@ -227,4 +239,8 @@ publishing {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
+
+tasks.named('processResources', ProcessResources).configure {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }

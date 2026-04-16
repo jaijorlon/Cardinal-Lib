@@ -1,6 +1,6 @@
 package net.jaijorlon.cardinal.api;
 
-import net.jaijorlon.cardinal.config.CardinalConfig;
+import net.jaijorlon.cardinal.CardinalConfig;
 
 import net.minecraft.nbt.CompoundTag;
 

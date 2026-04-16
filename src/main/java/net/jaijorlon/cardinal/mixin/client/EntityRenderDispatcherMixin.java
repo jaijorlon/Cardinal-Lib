@@ -1,10 +1,7 @@
 package net.jaijorlon.cardinal.mixin.client;
 
-import net.jaijorlon.cardinal.Cardinal;
 import net.jaijorlon.cardinal.ability.CardinalAbilities;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
-import net.threetag.palladium.power.SuperpowerUtil;
 import net.threetag.palladium.power.ability.AbilityUtil;
 import org.joml.Quaternionf;
 import org.spongepowered.asm.mixin.Final;
@@ -38,7 +35,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(EntityRenderDispatcher.class)
 public abstract class EntityRenderDispatcherMixin {

@@ -18,7 +18,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.jaijorlon.cardinal.api.GravityChangerAPI;
 import net.jaijorlon.cardinal.capabilities.GravityCapabilities;
 import net.jaijorlon.cardinal.capabilities.IGravityCapability;
-import net.jaijorlon.cardinal.config.CardinalConfig;
+import net.jaijorlon.cardinal.CardinalConfig;
 import net.jaijorlon.cardinal.util.RotationUtil;
 
 import net.minecraft.core.BlockPos;
@@ -39,7 +39,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-@Mixin(Entity.class)
+@Mixin({Entity.class})
 public abstract class EntityMixin {
     @Shadow
     private Vec3 position;
@@ -58,7 +58,7 @@ public abstract class EntityMixin {
     
     @Shadow
     public double zo;
-    
+
     @Shadow
     public abstract double getX();
     
@@ -72,7 +72,7 @@ public abstract class EntityMixin {
     public abstract double getZ();
     
     @Shadow
-    public Level level;
+    private Level level;
     
     @Shadow
     public abstract int getBlockX();
@@ -93,7 +93,7 @@ public abstract class EntityMixin {
     public abstract AABB getBoundingBox();
     
     @Shadow
-    public static Vec3 collideWithShapes(Vec3 movement, AABB entityBoundingBox, List<VoxelShape> collisions) {
+    private static Vec3 collideWithShapes(Vec3 movement, AABB entityBoundingBox, List<VoxelShape> collisions) {
         return null;
     }
     
@@ -112,12 +112,6 @@ public abstract class EntityMixin {
     
     @Shadow
     public abstract double getEyeY();
-    
-    @Shadow
-    public abstract float getViewYRot(float tickDelta);
-    
-    @Shadow
-    public abstract float getYRot();
     
     @Shadow
     public abstract float getXRot();

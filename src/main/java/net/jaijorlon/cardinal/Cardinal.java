@@ -7,7 +7,6 @@ import net.jaijorlon.cardinal.command.PalladiumPropertyCommand;
 import net.jaijorlon.cardinal.command.DirectionArgumentType;
 import net.jaijorlon.cardinal.command.LocalDirectionArgumentType;
 import net.jaijorlon.cardinal.command.OperationArgumentType;
-import net.jaijorlon.cardinal.config.CardinalConfig;
 import net.jaijorlon.cardinal.init.CardinalBlocks;
 import net.jaijorlon.cardinal.init.CardinalCreativeTabs;
 import net.jaijorlon.cardinal.init.CardinalItems;
@@ -57,7 +56,7 @@ public class Cardinal {
 
         GravityNetwork.registerMessages();
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, GravityCapabilities::attachEntityCapability);
-        ctx.registerConfig(Type.COMMON, CardinalConfig.CONFIG_SPEC, "cardinal.toml");
+        ctx.registerConfig(Type.COMMON, CardinalConfig.SPEC, "cardinal.toml");
     }
 
     public static void init() {
