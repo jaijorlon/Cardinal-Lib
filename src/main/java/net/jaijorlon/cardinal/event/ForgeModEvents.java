@@ -3,7 +3,7 @@ package net.jaijorlon.cardinal.event;
 import net.jaijorlon.cardinal.Cardinal;
 import net.jaijorlon.cardinal.api.GravityChangerAPI;
 import net.jaijorlon.cardinal.capabilities.GravityCapabilityImpl;
-import net.jaijorlon.cardinal.CardinalConfig;
+import net.jaijorlon.cardinal.config.CardinalConfig;
 import net.jaijorlon.cardinal.util.GCUtil;
 import net.jaijorlon.cardinal.util.PalladiumPropertyUtil;
 import net.minecraft.core.Direction;

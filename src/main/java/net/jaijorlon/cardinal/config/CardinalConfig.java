@@ -1,4 +1,4 @@
-package net.jaijorlon.cardinal;
+package net.jaijorlon.cardinal.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 

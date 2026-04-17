@@ -9,7 +9,7 @@ import net.jaijorlon.cardinal.EntityTags;
 import net.jaijorlon.cardinal.RotationAnimation;
 import net.jaijorlon.cardinal.api.GravityChangerAPI;
 import net.jaijorlon.cardinal.api.RotationParameters;
-import net.jaijorlon.cardinal.CardinalConfig;
+import net.jaijorlon.cardinal.config.CardinalConfig;
 import net.jaijorlon.cardinal.mob_effect.CardinalMobEffects;
 import net.jaijorlon.cardinal.item.GravityAnchorItem;
 import net.jaijorlon.cardinal.mixin.EntityAccessor;

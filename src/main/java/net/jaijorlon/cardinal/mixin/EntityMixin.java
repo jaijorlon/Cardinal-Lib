@@ -18,7 +18,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.jaijorlon.cardinal.api.GravityChangerAPI;
 import net.jaijorlon.cardinal.capabilities.GravityCapabilities;
 import net.jaijorlon.cardinal.capabilities.IGravityCapability;
-import net.jaijorlon.cardinal.CardinalConfig;
+import net.jaijorlon.cardinal.config.CardinalConfig;
 import net.jaijorlon.cardinal.util.RotationUtil;
 
 import net.minecraft.core.BlockPos;

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import net.jaijorlon.cardinal.EntityTags;
 import net.jaijorlon.cardinal.api.GravityChangerAPI;
 import net.jaijorlon.cardinal.capabilities.GravityCapabilityImpl;
-import net.jaijorlon.cardinal.CardinalConfig;
+import net.jaijorlon.cardinal.config.CardinalConfig;
 import net.jaijorlon.cardinal.init.CardinalBlocks;
 import net.jaijorlon.cardinal.util.GCUtil;
 import net.jaijorlon.cardinal.util.RotationUtil;

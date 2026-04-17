@@ -12,6 +12,7 @@ import net.jaijorlon.cardinal.init.CardinalCreativeTabs;
 import net.jaijorlon.cardinal.init.CardinalItems;
 import net.jaijorlon.cardinal.mob_effect.CardinalMobEffects;
 import net.jaijorlon.cardinal.network.GravityNetwork;
+import net.jaijorlon.cardinal.config.CardinalConfig;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.commands.synchronization.ArgumentTypeInfos;
