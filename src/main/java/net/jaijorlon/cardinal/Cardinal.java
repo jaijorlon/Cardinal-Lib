@@ -38,6 +38,8 @@ public class Cardinal {
 
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
+        ctx.registerConfig(Type.COMMON, CardinalConfig.SPEC, "cardinal.toml");
+
         CardinalItems.ITEMS.register(bus);
         CardinalBlocks.BLOCKS.register(bus);
         CardinalBlocks.BLOCK_ENTITIES.register(bus);
@@ -56,7 +58,6 @@ public class Cardinal {
 
         GravityNetwork.registerMessages();
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, GravityCapabilities::attachEntityCapability);
-        ctx.registerConfig(Type.COMMON, CardinalConfig.SPEC, "cardinal.toml");
     }
 
     public static void init() {
