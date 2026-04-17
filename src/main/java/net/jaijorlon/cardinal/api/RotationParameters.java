@@ -2,6 +2,7 @@ package net.jaijorlon.cardinal.api;
 
 import net.jaijorlon.cardinal.config.CardinalConfig;
 
+import net.jaijorlon.cardinal.config.CardinalConfigHandler;
 import net.minecraft.nbt.CompoundTag;
 
 public record RotationParameters(
@@ -15,9 +16,9 @@ public record RotationParameters(
     
     public static void updateDefault() {
         defaultParam = new RotationParameters(
-            !CardinalConfig.worldVelocity.get(),
+            !CardinalConfigHandler.worldVelocity,
             true,
-            CardinalConfig.rotationTime.get()
+            CardinalConfigHandler.rotationTime
         );
     }
     

@@ -2,6 +2,7 @@ package net.jaijorlon.cardinal.mixin;
 
 import java.util.List;
 
+import net.jaijorlon.cardinal.config.CardinalConfigHandler;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -594,7 +595,7 @@ public abstract class EntityMixin {
         Entity this_ = (Entity) (Object) this;
     
         Direction gravityDirection = GravityChangerAPI.getGravityDirection(this_);
-        if (CardinalConfig.voidDamageAboveWorld.get() &&
+        if (CardinalConfigHandler.voidDamageAboveWorld &&
             this.getY() > (double) (this.level.getMaxBuildHeight() + 256) &&
             gravityDirection == Direction.UP
         ) {
@@ -603,7 +604,7 @@ public abstract class EntityMixin {
             return;
         }
         
-        if (CardinalConfig.voidDamageOnHorizontalFallTooFar.get() &&
+        if (CardinalConfigHandler.voidDamageOnHorizontalFallTooFar &&
             gravityDirection.getAxis() != Direction.Axis.Y &&
             fallDistance > 1024
             // TODO also handle reverse gravity strength

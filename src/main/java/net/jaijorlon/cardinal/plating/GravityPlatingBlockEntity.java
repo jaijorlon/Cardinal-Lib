@@ -3,6 +3,7 @@ package net.jaijorlon.cardinal.plating;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.jaijorlon.cardinal.config.CardinalConfigHandler;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.Nullable;
 
@@ -304,7 +305,7 @@ public class GravityPlatingBlockEntity extends BlockEntity {
                 }
             }
             
-            if (applies && CardinalConfig.autoJumpOnGravityPlateInnerCorner.get()) {
+            if (applies && CardinalConfigHandler.autoJumpOnGravityPlateInnerCorner) {
                 tryToDoCornerAutoJump(blockState, blockPos, entity, comp);
             }
         }

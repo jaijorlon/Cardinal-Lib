@@ -1,5 +1,6 @@
 package net.jaijorlon.cardinal.capabilities;
 
+import net.jaijorlon.cardinal.config.CardinalConfigHandler;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -196,7 +197,7 @@ public class GravityCapabilityImpl implements IGravityCapability {
         else {
             currGravityDirection = baseGravityDirection;
             currGravityStrength = baseGravityStrength;
-            currGravityStrength *= CardinalConfig.gravityStrengthMultiplier.get();
+            currGravityStrength *= CardinalConfigHandler.gravityStrengthMultiplier;
             // the rotation parameters is not being reset here
             // the rotation parameter is kept when an effect vanishes
             currentEffectPriority = Double.MIN_VALUE;
@@ -441,7 +442,7 @@ public class GravityCapabilityImpl implements IGravityCapability {
     
     // Adjust position to avoid suffocation in blocks when changing gravity
     private void adjustEntityPosition(Direction oldGravity, Direction newGravity, AABB entityBoundingBox) {
-        if (!CardinalConfig.adjustPositionAfterChangingGravity.get()) {
+        if (!CardinalConfigHandler.adjustPositionAfterChangingGravity) {
             return;
         }
         

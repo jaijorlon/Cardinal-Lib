@@ -4,6 +4,7 @@ import net.jaijorlon.cardinal.Cardinal;
 import net.jaijorlon.cardinal.api.GravityChangerAPI;
 import net.jaijorlon.cardinal.capabilities.GravityCapabilityImpl;
 import net.jaijorlon.cardinal.config.CardinalConfig;
+import net.jaijorlon.cardinal.config.CardinalConfigHandler;
 import net.jaijorlon.cardinal.util.GCUtil;
 import net.jaijorlon.cardinal.util.PalladiumPropertyUtil;
 import net.minecraft.core.Direction;
@@ -35,7 +36,7 @@ public class ForgeModEvents {
     @SubscribeEvent
     public static void onPlayerClone(PlayerEvent.Clone event) {
         Player player = event.getEntity();
-        if (event.isWasDeath() && !CardinalConfig.resetGravityOnRespawn.get()) {
+        if (event.isWasDeath() && !CardinalConfigHandler.resetGravityOnRespawn) {
             Player original = event.getOriginal();
             original.revive();
             GravityChangerAPI.setBaseGravityDirection(player, GravityChangerAPI.getBaseGravityDirection(original));
