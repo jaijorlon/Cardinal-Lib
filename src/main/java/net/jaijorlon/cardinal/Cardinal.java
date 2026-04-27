@@ -7,6 +7,7 @@ import net.jaijorlon.cardinal.command.PalladiumPropertyCommand;
 import net.jaijorlon.cardinal.command.DirectionArgumentType;
 import net.jaijorlon.cardinal.command.LocalDirectionArgumentType;
 import net.jaijorlon.cardinal.command.OperationArgumentType;
+import net.jaijorlon.cardinal.condition.CardinalConditionSerializers;
 import net.jaijorlon.cardinal.init.CardinalBlocks;
 import net.jaijorlon.cardinal.init.CardinalCreativeTabs;
 import net.jaijorlon.cardinal.init.CardinalItems;
@@ -63,6 +64,7 @@ public class Cardinal {
 
     public static void init() {
         CardinalAbilities.ABILITIES.register();
+        CardinalConditionSerializers.CONDITION_SERIALIZERS.register();
     }
 
     public static ResourceLocation id(String path) {
