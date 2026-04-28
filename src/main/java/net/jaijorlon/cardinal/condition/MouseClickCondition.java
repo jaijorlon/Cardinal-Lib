@@ -31,9 +31,10 @@ public class MouseClickCondition extends MouseCondition {
             return false;
         }
 
-        if (entity.level().isClientSide()) {
-            Minecraft minecraft = Minecraft.getInstance();
+        Minecraft minecraft = Minecraft.getInstance();
 
+        assert minecraft.player != null;
+        if (minecraft.player.equals(entity)) {
             if (minecraft.mouseHandler.isLeftPressed() && this.mouseButton.equals("left")) {
                 if (entry.cooldown == 0 && !holdingDownLeft) {
                     entry.keyPressed = true;
