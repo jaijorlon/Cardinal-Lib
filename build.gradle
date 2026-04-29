@@ -169,15 +169,10 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-
-    // Mixin Squared
-    implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-common:0.3.3"))
+    compileOnly(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-common:0.3.3"))
     implementation fg.deobf("com.github.bawnorton.mixinsquared:mixinsquared-forge:0.3.3")
-
-    // Mixin Extras
-    implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:0.2.0"))
-    implementation fg.deobf("io.github.llamalad7:mixinextras-forge:0.2.0")
-
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1"))
+    implementation fg.deobf("io.github.llamalad7:mixinextras-forge:0.4.1")
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
     // Palladium
