@@ -40,6 +40,10 @@ public class MouseClickCondition extends MouseCondition {
                     entry.keyPressed = true;
                     holdingDownLeft = true;
                 }
+                if (this.cooldown == 0) {
+                    entry.keyPressed = true;
+                    holdingDownLeft = true;
+                }
             }
             else {
                 holdingDownLeft = false;
@@ -47,6 +51,10 @@ public class MouseClickCondition extends MouseCondition {
 
             if (minecraft.mouseHandler.isRightPressed() && this.mouseButton.equals("right")) {
                 if (entry.cooldown == 0 && !holdingDownRight) {
+                    entry.keyPressed = true;
+                    holdingDownRight = true;
+                }
+                if (this.cooldown == 0) {
                     entry.keyPressed = true;
                     holdingDownRight = true;
                 }
