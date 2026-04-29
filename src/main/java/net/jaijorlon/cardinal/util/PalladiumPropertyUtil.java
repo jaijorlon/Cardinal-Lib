@@ -14,13 +14,11 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class PalladiumPropertyUtil {
-    public static void registerProperty(Entity entity, String propertyName, String ValueType, Object defaultValue) {
+    public static void registerProperty(EntityPropertyHandler handler, String propertyName, String ValueType, Object defaultValue) {
         PalladiumProperty property = PalladiumPropertyLookup.get(ValueType, propertyName);
 
         if (property != null) {
-            EntityPropertyHandler.getHandler(entity).ifPresent(handler -> {
                 handler.register(property, PalladiumProperty.fixValues(property, defaultValue));
-            });
         }
     }
 

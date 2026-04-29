@@ -26,6 +26,7 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.threetag.palladium.event.PalladiumEvents;
 import net.threetag.palladiumcore.event.CommandEvents;
 import org.slf4j.Logger;
 
