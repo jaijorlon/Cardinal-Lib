@@ -1,4 +1,5 @@
 # Cardinal-Lib
 A library mod that adds features for palladium addon/mod-addon development.
+[![](https://jitpack.io/v/jaijorlon/Cardinal-Lib.svg)](https://jitpack.io/#jaijorlon/Cardinal-Lib)
 
 Credit to GravityApi(forge) for the gravity code: https://github.com/min2222/Gravity-API
