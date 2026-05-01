@@ -12,6 +12,13 @@ import java.util.List;
 import java.util.Set;
 
 public class GravityMixinPlugin implements IMixinConfigPlugin {
+
+    private static final boolean HAS_AC;
+
+    static {
+        HAS_AC = hasClass("com.github.alexmodguy.alexscaves.AlexsCaves");
+    }
+
     @Override
     public void onLoad(String mixinPackage) {
         MixinExtrasBootstrap.init();
@@ -21,12 +28,6 @@ public class GravityMixinPlugin implements IMixinConfigPlugin {
     @Override
     public String getRefMapperConfig() {
         return null;
-    }
-
-    private static final boolean HAS_AC;
-
-    static {
-        HAS_AC = hasClass("com.github.alexmodguy.alexscaves.AlexsCaves");
     }
 
     @Override

@@ -18,7 +18,7 @@ public class PalladiumPropertyUtil {
         PalladiumProperty property = PalladiumPropertyLookup.get(ValueType, propertyName);
 
         if (property != null) {
-                handler.register(property, PalladiumProperty.fixValues(property, defaultValue));
+            handler.register(property, PalladiumProperty.fixValues(property, defaultValue));
         }
     }
 
