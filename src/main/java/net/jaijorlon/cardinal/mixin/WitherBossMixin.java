@@ -43,7 +43,7 @@ public abstract class WitherBossMixin {
     private double redirect_shootSkullAt_getY_0(LivingEntity target) {
         Direction gravityDirection = GravityChangerAPI.getGravityDirection(target);
         if (gravityDirection == Direction.DOWN) {
-            return target.getX();
+            return target.getY();
         }
         
         return target.position().add(RotationUtil.vecPlayerToWorld(0.0D, target.getEyeHeight() * 0.5D, 0.0D, gravityDirection)).y - target.getEyeHeight() * 0.5D;
@@ -60,7 +60,7 @@ public abstract class WitherBossMixin {
     private double redirect_shootSkullAt_getZ_0(LivingEntity target) {
         Direction gravityDirection = GravityChangerAPI.getGravityDirection(target);
         if (gravityDirection == Direction.DOWN) {
-            return target.getX();
+            return target.getZ();
         }
         
         return target.position().add(RotationUtil.vecPlayerToWorld(0.0D, target.getEyeHeight() * 0.5D, 0.0D, gravityDirection)).z;
