@@ -14,4 +14,5 @@ public class CardinalConditionSerializers {
     public static final RegistrySupplier<ConditionSerializer> HOLDING_BLOCK = CONDITION_SERIALIZERS.register("holding_block", HoldingBlockCondition.Serializer::new);
     public static final RegistrySupplier<ConditionSerializer> MOUSE_CLICK = CONDITION_SERIALIZERS.register("mouse_click", MouseClickCondition.Serializer::new);
     public static final RegistrySupplier<ConditionSerializer> LOOKING_AT_ENTITY = CONDITION_SERIALIZERS.register("looking_at_entity", LookingAtEntityCondition.Serializer::new);
+    public static final RegistrySupplier<ConditionSerializer> ABILITY_FIRST_ENABLED = CONDITION_SERIALIZERS.register("ability_first_enabled", AbilityFirstEnabledCondition.Serializer::new);
 }
