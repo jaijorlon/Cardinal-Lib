@@ -23,102 +23,100 @@ public class HasInputKeyCondition extends Condition {
         var entity = context.getEntity();
 
         if (entity != null) {
-            if (entity.level.isClientSide) {
-                Minecraft minecraft = Minecraft.getInstance();
+            Minecraft minecraft = Minecraft.getInstance();
 
-                if (minecraft.options.keyUp.isDown()) {
-                    if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("forward") || s.equalsIgnoreCase("up"))) {
-                        return true;
-                    }
+            if (minecraft.options.keyUp.isDown()) {
+                if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("forward") || s.equalsIgnoreCase("up"))) {
+                    return true;
                 }
-                if (minecraft.options.keyDown.isDown()) {
-                    if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("down") || s.equalsIgnoreCase("backward"))) {
-                        return true;
-                    }
+            }
+            if (minecraft.options.keyDown.isDown()) {
+                if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("down") || s.equalsIgnoreCase("backward"))) {
+                    return true;
                 }
-                if (minecraft.options.keyLeft.isDown()) {
-                    if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("left"))) {
-                        return true;
-                    }
+            }
+            if (minecraft.options.keyLeft.isDown()) {
+                if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("left"))) {
+                    return true;
                 }
-                if (minecraft.options.keyRight.isDown()) {
-                    if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("right"))) {
-                        return true;
-                    }
+            }
+            if (minecraft.options.keyRight.isDown()) {
+                if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("right"))) {
+                    return true;
                 }
-                if (minecraft.options.keyJump.isDown()) {
-                    if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("jump"))) {
-                        return true;
-                    }
+            }
+            if (minecraft.options.keyJump.isDown()) {
+                if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("jump"))) {
+                    return true;
                 }
-                if (minecraft.options.keySprint.isDown()) {
-                    if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("sprint"))) {
-                        return true;
-                    }
+            }
+            if (minecraft.options.keySprint.isDown()) {
+                if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("sprint"))) {
+                    return true;
                 }
-                if (minecraft.options.keyUse.isDown()) {
-                    if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("use"))) {
-                        return true;
-                    }
+            }
+            if (minecraft.options.keyUse.isDown()) {
+                if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("use"))) {
+                    return true;
                 }
-                if (minecraft.options.keyAttack.isDown()) {
-                    if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("attack"))) {
-                        return true;
-                    }
+            }
+            if (minecraft.options.keyAttack.isDown()) {
+                if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("attack"))) {
+                    return true;
                 }
-                if (minecraft.options.keyShift.isDown()) {
-                    if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("shift"))) {
-                        return true;
-                    }
+            }
+            if (minecraft.options.keyShift.isDown()) {
+                if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("shift"))) {
+                    return true;
                 }
-                if (minecraft.options.keyAdvancements.isDown()) {
-                    if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("advancements"))) {
-                        return true;
-                    }
+            }
+            if (minecraft.options.keyAdvancements.isDown()) {
+                if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("advancements"))) {
+                    return true;
                 }
-                if (minecraft.options.keyChat.isDown()) {
-                    if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("chat"))) {
-                        return true;
-                    }
+            }
+            if (minecraft.options.keyChat.isDown()) {
+                if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("chat"))) {
+                    return true;
                 }
-                if (minecraft.options.keyCommand.isDown()) {
-                    if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("command"))) {
-                        return true;
-                    }
+            }
+            if (minecraft.options.keyCommand.isDown()) {
+                if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("command"))) {
+                    return true;
                 }
-                if (minecraft.options.keyDrop.isDown()) {
-                    if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("drop"))) {
-                        return true;
-                    }
+            }
+            if (minecraft.options.keyDrop.isDown()) {
+                if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("drop"))) {
+                    return true;
                 }
-                if (minecraft.options.keyFullscreen.isDown()) {
-                    if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("fullscreen"))) {
-                        return true;
-                    }
+            }
+            if (minecraft.options.keyFullscreen.isDown()) {
+                if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("fullscreen"))) {
+                    return true;
                 }
-                if (minecraft.options.keyInventory.isDown()) {
-                    if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("inventory"))) {
-                        return true;
-                    }
+            }
+            if (minecraft.options.keyInventory.isDown()) {
+                if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("inventory"))) {
+                    return true;
                 }
-                if (minecraft.options.keyPickItem.isDown()) {
-                    if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("pick_item"))) {
-                        return true;
-                    }
+            }
+            if (minecraft.options.keyPickItem.isDown()) {
+                if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("pick_item"))) {
+                    return true;
                 }
-                if (minecraft.options.keySwapOffhand.isDown()) {
-                    if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("swap_offhand"))) {
-                        return true;
-                    }
+            }
+            if (minecraft.options.keySwapOffhand.isDown()) {
+                if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("swap_offhand"))) {
+                    return true;
                 }
-                if (minecraft.options.keyTogglePerspective.isDown()) {
-                    if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("toggle_perspective"))) {
-                        return true;
-                    }
+            }
+            if (minecraft.options.keyTogglePerspective.isDown()) {
+                if (Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("toggle_perspective"))) {
+                    return true;
                 }
-                if (minecraft.options.keySmoothCamera.isDown()) {
-                    return Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("smooth_camera"));
-                }
+            }
+            if (minecraft.options.keySmoothCamera.isDown()) {
+                return Arrays.stream(this.inputKeys).anyMatch(s -> s.equalsIgnoreCase("smooth_camera"));
             }
         }
 
