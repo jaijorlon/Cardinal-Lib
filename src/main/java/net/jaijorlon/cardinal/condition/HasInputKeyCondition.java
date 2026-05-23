@@ -130,7 +130,7 @@ public class HasInputKeyCondition extends Condition {
 
     public static class Serializer extends ConditionSerializer {
 
-        public static final PalladiumProperty<String[]> INPUT_KEYS = new StringArrayProperty("inputKeys").configurable("Keys to test for input");
+        public static final PalladiumProperty<String[]> INPUT_KEYS = new StringArrayProperty("inputKeys").configurable("Keys to test for player input");
 
         public Serializer() {
             this.withProperty(INPUT_KEYS, new String[]{"jump", "forward"});
