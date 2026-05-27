@@ -447,21 +447,19 @@ public abstract class EntityMixin {
         
         cir.setReturnValue(RotationUtil.vecWorldToPlayer(cir.getReturnValue(), gravityDirection));
     }
-    
-    @Redirect(
-        method = "Lnet/minecraft/world/entity/Entity;collideBoundingBox(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/AABB;Lnet/minecraft/world/level/Level;Ljava/util/List;)Lnet/minecraft/world/phys/Vec3;",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/world/entity/Entity;collideWithShapes(Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/AABB;Ljava/util/List;)Lnet/minecraft/world/phys/Vec3;",
-            ordinal = 0
-        )
+
+    @Inject(
+            method = "collideBoundingBox",
+            at = @At("HEAD"),
+            cancellable = true
     )
-    private static Vec3 redirect_adjustMovementForCollisions_adjustMovementForCollisions_0(Vec3 movement, AABB entityBoundingBox, List<VoxelShape> collisions, Entity entity) {
-        Direction gravityDirection;
+    private static void inject_adjustMovementForCollisions_adjustMovementForCollisions_0(Entity entity, Vec3 movement, AABB entityBoundingBox, Level level, List<VoxelShape> collisions, CallbackInfoReturnable<Vec3> cir) {
+        Direction gravityDirection = null;
         if (entity == null || (gravityDirection = GravityChangerAPI.getGravityDirection(entity)) == Direction.DOWN) {
-            return collideWithShapes(movement, entityBoundingBox, collisions);
+            cir.setReturnValue(collideWithShapes(movement, entityBoundingBox, collisions));
         }
-        
+        if (gravityDirection == null) cir.setReturnValue(collideWithShapes(movement, entityBoundingBox, collisions));
+
         Vec3 playerMovement = RotationUtil.vecWorldToPlayer(movement, gravityDirection);
         double playerMovementX = playerMovement.x;
         double playerMovementY = playerMovement.y;
@@ -469,13 +467,14 @@ public abstract class EntityMixin {
         Direction directionX = RotationUtil.dirPlayerToWorld(Direction.EAST, gravityDirection);
         Direction directionY = RotationUtil.dirPlayerToWorld(Direction.UP, gravityDirection);
         Direction directionZ = RotationUtil.dirPlayerToWorld(Direction.SOUTH, gravityDirection);
+
         if (playerMovementY != 0.0D) {
             playerMovementY = Shapes.collide(directionY.getAxis(), entityBoundingBox, collisions, playerMovementY * directionY.getAxisDirection().getStep()) * directionY.getAxisDirection().getStep();
             if (playerMovementY != 0.0D) {
                 entityBoundingBox = entityBoundingBox.move(RotationUtil.vecPlayerToWorld(0.0D, playerMovementY, 0.0D, gravityDirection));
             }
         }
-        
+
         boolean isZLargerThanX = Math.abs(playerMovementX) < Math.abs(playerMovementZ);
         if (isZLargerThanX && playerMovementZ != 0.0D) {
             playerMovementZ = Shapes.collide(directionZ.getAxis(), entityBoundingBox, collisions, playerMovementZ * directionZ.getAxisDirection().getStep()) * directionZ.getAxisDirection().getStep();
@@ -483,19 +482,19 @@ public abstract class EntityMixin {
                 entityBoundingBox = entityBoundingBox.move(RotationUtil.vecPlayerToWorld(0.0D, 0.0D, playerMovementZ, gravityDirection));
             }
         }
-        
+
         if (playerMovementX != 0.0D) {
             playerMovementX = Shapes.collide(directionX.getAxis(), entityBoundingBox, collisions, playerMovementX * directionX.getAxisDirection().getStep()) * directionX.getAxisDirection().getStep();
             if (!isZLargerThanX && playerMovementX != 0.0D) {
                 entityBoundingBox = entityBoundingBox.move(RotationUtil.vecPlayerToWorld(playerMovementX, 0.0D, 0.0D, gravityDirection));
             }
         }
-        
+
         if (!isZLargerThanX && playerMovementZ != 0.0D) {
             playerMovementZ = Shapes.collide(directionZ.getAxis(), entityBoundingBox, collisions, playerMovementZ * directionZ.getAxisDirection().getStep()) * directionZ.getAxisDirection().getStep();
         }
-        
-        return RotationUtil.vecPlayerToWorld(playerMovementX, playerMovementY, playerMovementZ, gravityDirection);
+
+        cir.setReturnValue(RotationUtil.vecPlayerToWorld(playerMovementX, playerMovementY, playerMovementZ, gravityDirection));
     }
     
     @WrapOperation(
