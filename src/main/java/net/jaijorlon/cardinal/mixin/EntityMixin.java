@@ -448,17 +448,18 @@ public abstract class EntityMixin {
         cir.setReturnValue(RotationUtil.vecWorldToPlayer(cir.getReturnValue(), gravityDirection));
     }
 
-    @Inject(
-            method = "collideBoundingBox",
-            at = @At("HEAD"),
-            cancellable = true
-    )
-    private static void inject_adjustMovementForCollisions_adjustMovementForCollisions_0(Entity entity, Vec3 movement, AABB entityBoundingBox, Level level, List<VoxelShape> collisions, CallbackInfoReturnable<Vec3> cir) {
-        Direction gravityDirection = null;
+    @Redirect(
+            method = "Lnet/minecraft/world/entity/Entity;collideBoundingBox(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/AABB;Lnet/minecraft/world/level/Level;Ljava/util/List;)Lnet/minecraft/world/phys/Vec3;",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/Entity;collideWithShapes(Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/AABB;Ljava/util/List;)Lnet/minecraft/world/phys/Vec3;",
+                    ordinal = 0
+            ))
+    private static Vec3 redirect_adjustMovementForCollisions_adjustMovementForCollisions_0(Vec3 movement, AABB entityBoundingBox, List<VoxelShape> collisions, Entity entity) {
+        Direction gravityDirection;
         if (entity == null || (gravityDirection = GravityChangerAPI.getGravityDirection(entity)) == Direction.DOWN) {
-            cir.setReturnValue(collideWithShapes(movement, entityBoundingBox, collisions));
+            return collideWithShapes(movement, entityBoundingBox, collisions);
         }
-        if (gravityDirection == null) cir.setReturnValue(collideWithShapes(movement, entityBoundingBox, collisions));
 
         Vec3 playerMovement = RotationUtil.vecWorldToPlayer(movement, gravityDirection);
         double playerMovementX = playerMovement.x;
@@ -494,7 +495,7 @@ public abstract class EntityMixin {
             playerMovementZ = Shapes.collide(directionZ.getAxis(), entityBoundingBox, collisions, playerMovementZ * directionZ.getAxisDirection().getStep()) * directionZ.getAxisDirection().getStep();
         }
 
-        cir.setReturnValue(RotationUtil.vecPlayerToWorld(playerMovementX, playerMovementY, playerMovementZ, gravityDirection));
+        return RotationUtil.vecPlayerToWorld(playerMovementX, playerMovementY, playerMovementZ, gravityDirection);
     }
     
     @WrapOperation(

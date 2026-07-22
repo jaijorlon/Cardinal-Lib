@@ -29,6 +29,7 @@ public abstract class RotationUtil {
     }
     
     public static Direction dirWorldToPlayer(Direction direction, Direction gravityDirection) {
+        if (gravityDirection == null) gravityDirection = Direction.DOWN;
         return DIR_WORLD_TO_PLAYER[gravityDirection.get3DDataValue()][direction.get3DDataValue()];
     }
     
@@ -47,10 +48,12 @@ public abstract class RotationUtil {
     }
     
     public static Direction dirPlayerToWorld(Direction direction, Direction gravityDirection) {
+        if (gravityDirection == null) gravityDirection = Direction.DOWN;
         return DIR_PLAYER_TO_WORLD[gravityDirection.get3DDataValue()][direction.get3DDataValue()];
     }
     
     public static Vec3 vecWorldToPlayer(double x, double y, double z, Direction gravityDirection) {
+        if (gravityDirection == null) gravityDirection = Direction.DOWN;
         return switch (gravityDirection) {
             case DOWN -> new Vec3(x, y, z);
             case UP -> new Vec3(-x, -y, z);
@@ -62,10 +65,12 @@ public abstract class RotationUtil {
     }
     
     public static Vec3 vecWorldToPlayer(Vec3 vec3d, Direction gravityDirection) {
+        if (gravityDirection == null) gravityDirection = Direction.DOWN;
         return vecWorldToPlayer(vec3d.x, vec3d.y, vec3d.z, gravityDirection);
     }
     
     public static Vec3 vecEntityToWorld(double x, double y, double z, Direction gravityDirection) {
+        if (gravityDirection == null) gravityDirection = Direction.DOWN;
         return switch (gravityDirection) {
             case DOWN -> new Vec3(x, y, z);
             case UP -> new Vec3(x, -y, z);
@@ -77,10 +82,12 @@ public abstract class RotationUtil {
     }
     
     public static Vec3 vecEntityToWorld(Vec3 vec3d, Direction gravityDirection) {
+        if (gravityDirection == null) gravityDirection = Direction.DOWN;
         return vecEntityToWorld(vec3d.x, vec3d.y, vec3d.z, gravityDirection);
     }
     
     public static Vec3 vecPlayerToWorld(double x, double y, double z, Direction gravityDirection) {
+        if (gravityDirection == null) gravityDirection = Direction.DOWN;
         return switch (gravityDirection) {
             case DOWN -> new Vec3(x, y, z);
             case UP -> new Vec3(-x, -y, z);
@@ -92,10 +99,12 @@ public abstract class RotationUtil {
     }
     
     public static Vec3 vecPlayerToWorld(Vec3 vec3d, Direction gravityDirection) {
+        if (gravityDirection == null) gravityDirection = Direction.DOWN;
         return vecPlayerToWorld(vec3d.x, vec3d.y, vec3d.z, gravityDirection);
     }
     
     public static Vector3f vecWorldToPlayer(float x, float y, float z, Direction gravityDirection) {
+        if (gravityDirection == null) gravityDirection = Direction.DOWN;
         return switch (gravityDirection) {
             case DOWN -> new Vector3f(x, y, z);
             case UP -> new Vector3f(-x, -y, z);
@@ -107,10 +116,12 @@ public abstract class RotationUtil {
     }
     
     public static Vector3f vecWorldToPlayer(Vector3f vector3F, Direction gravityDirection) {
+        if (gravityDirection == null) gravityDirection = Direction.DOWN;
         return vecWorldToPlayer(vector3F.x(), vector3F.y(), vector3F.z(), gravityDirection);
     }
     
     public static Vector3f vecPlayerToWorld(float x, float y, float z, Direction gravityDirection) {
+        if (gravityDirection == null) gravityDirection = Direction.DOWN;
         return switch (gravityDirection) {
             case DOWN -> new Vector3f(x, y, z);
             case UP -> new Vector3f(-x, -y, z);
@@ -122,10 +133,12 @@ public abstract class RotationUtil {
     }
     
     public static Vector3f vecPlayerToWorld(Vector3f vector3F, Direction gravityDirection) {
+        if (gravityDirection == null) gravityDirection = Direction.DOWN;
         return vecPlayerToWorld(vector3F.x(), vector3F.y(), vector3F.z(), gravityDirection);
     }
     
     public static Vec3 maskWorldToPlayer(double x, double y, double z, Direction gravityDirection) {
+        if (gravityDirection == null) gravityDirection = Direction.DOWN;
         return switch (gravityDirection) {
             case DOWN, UP -> new Vec3(x, y, z);
             case NORTH, SOUTH -> new Vec3(x, z, y);
@@ -134,10 +147,12 @@ public abstract class RotationUtil {
     }
     
     public static Vec3 maskWorldToPlayer(Vec3 vec3d, Direction gravityDirection) {
+        if (gravityDirection == null) gravityDirection = Direction.DOWN;
         return maskWorldToPlayer(vec3d.x, vec3d.y, vec3d.z, gravityDirection);
     }
     
     public static Vec3 maskPlayerToWorld(double x, double y, double z, Direction gravityDirection) {
+        if (gravityDirection == null) gravityDirection = Direction.DOWN;
         return switch (gravityDirection) {
             case DOWN, UP -> new Vec3(x, y, z);
             case NORTH, SOUTH -> new Vec3(x, z, y);
@@ -146,10 +161,12 @@ public abstract class RotationUtil {
     }
     
     public static Vec3 maskPlayerToWorld(Vec3 vec3d, Direction gravityDirection) {
+        if (gravityDirection == null) gravityDirection = Direction.DOWN;
         return maskPlayerToWorld(vec3d.x, vec3d.y, vec3d.z, gravityDirection);
     }
     
     public static AABB boxWorldToPlayer(AABB box, Direction gravityDirection) {
+        if (gravityDirection == null) gravityDirection = Direction.DOWN;
         return new AABB(
             RotationUtil.vecWorldToPlayer(box.minX, box.minY, box.minZ, gravityDirection),
             RotationUtil.vecWorldToPlayer(box.maxX, box.maxY, box.maxZ, gravityDirection)
@@ -157,6 +174,7 @@ public abstract class RotationUtil {
     }
     
     public static AABB boxPlayerToWorld(AABB box, Direction gravityDirection) {
+        if (gravityDirection == null) gravityDirection = Direction.DOWN;
         return new AABB(
             RotationUtil.vecPlayerToWorld(box.minX, box.minY, box.minZ, gravityDirection),
             RotationUtil.vecPlayerToWorld(box.maxX, box.maxY, box.maxZ, gravityDirection)
@@ -164,20 +182,24 @@ public abstract class RotationUtil {
     }
     
     public static Vec2 rotWorldToPlayer(float yaw, float pitch, Direction gravityDirection) {
+        if (gravityDirection == null) gravityDirection = Direction.DOWN;
         Vec3 vec3d = RotationUtil.vecWorldToPlayer(rotToVec(yaw, pitch), gravityDirection);
         return vecToRot(vec3d.x, vec3d.y, vec3d.z);
     }
     
     public static Vec2 rotWorldToPlayer(Vec2 vec2f, Direction gravityDirection) {
+        if (gravityDirection == null) gravityDirection = Direction.DOWN;
         return rotWorldToPlayer(vec2f.x, vec2f.y, gravityDirection);
     }
     
     public static Vec2 rotPlayerToWorld(float yaw, float pitch, Direction gravityDirection) {
+        if (gravityDirection == null) gravityDirection = Direction.DOWN;
         Vec3 vec3d = RotationUtil.vecPlayerToWorld(rotToVec(yaw, pitch), gravityDirection);
         return vecToRot(vec3d.x, vec3d.y, vec3d.z);
     }
     
     public static Vec2 rotPlayerToWorld(Vec2 vec2f, Direction gravityDirection) {
+        if (gravityDirection == null) gravityDirection = Direction.DOWN;
         return rotPlayerToWorld(vec2f.x, vec2f.y, gravityDirection);
     }
     
@@ -232,6 +254,7 @@ public abstract class RotationUtil {
      * TODO change return value to {@link Quaternionfc}
      */
     public static Quaternionf getWorldRotationQuaternion(Direction gravityDirection) {
+        if (gravityDirection == null) gravityDirection = Direction.DOWN;
         return WORLD_ROTATION_QUATERNIONS[gravityDirection.get3DDataValue()];
     }
     
@@ -248,6 +271,7 @@ public abstract class RotationUtil {
      * Note: don't modify the quaternion object in-place
      */
     public static Quaternionf getCameraRotationQuaternion(Direction gravityDirection) {
+        if (gravityDirection == null) gravityDirection = Direction.DOWN;
         return ENTITY_ROTATION_QUATERNIONS[gravityDirection.get3DDataValue()];
     }
     

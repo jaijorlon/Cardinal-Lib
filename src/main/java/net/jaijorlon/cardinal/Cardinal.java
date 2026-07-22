@@ -66,6 +66,31 @@ public class Cardinal {
     public static void init() {
         CardinalAbilities.ABILITIES.register();
         CardinalConditionSerializers.CONDITION_SERIALIZERS.register();
+
+        ModLoadingContext ctx = ModLoadingContext.get();
+
+        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        ctx.registerConfig(Type.COMMON, CardinalConfig.SPEC, "cardinal.toml");
+
+        CardinalItems.ITEMS.register(bus);
+        CardinalBlocks.BLOCKS.register(bus);
+        CardinalBlocks.BLOCK_ENTITIES.register(bus);
+        CardinalMobEffects.EFFECTS.register(bus);
+        CardinalMobEffects.POTIONS.register(bus);
+        CardinalCreativeTabs.CREATIVE_MODE_TAB.register(bus);
+
+        ArgumentTypeInfos.registerByClass(OperationArgumentType.class, SingletonArgumentInfo.contextFree(OperationArgumentType::new));
+        ArgumentTypeInfos.registerByClass(DirectionArgumentType.class, SingletonArgumentInfo.contextFree(DirectionArgumentType::new));
+        ArgumentTypeInfos.registerByClass(LocalDirectionArgumentType.class, SingletonArgumentInfo.contextFree(LocalDirectionArgumentType::new));
+
+        CommandEvents.REGISTER.register((dispatcher, selection) -> {
+            GravityCommand.register(dispatcher);
+            PalladiumPropertyCommand.register(dispatcher);
+        });
+
+        GravityNetwork.registerMessages();
+        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, GravityCapabilities::attachEntityCapability);
     }
 
     public static ResourceLocation id(String path) {
