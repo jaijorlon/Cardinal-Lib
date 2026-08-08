@@ -20,8 +20,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import net.threetag.palladium.power.ability.AbilityUtil;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -32,31 +32,33 @@ public class ClientForgeModEvents {
 
     @SubscribeEvent
     public static void onKeyInput(InputEvent.Key event) {
-        Minecraft mc = Minecraft.getInstance();
-        if (!AbilityUtil.isTypeEnabled(mc.player, CardinalAbilities.PREVENT_MOVEMENT_INPUT.get())) return;
+        if (ModList.get().isLoaded("palladium")) {
+            Minecraft mc = Minecraft.getInstance();
+            if (!net.threetag.palladium.power.ability.AbilityUtil.isTypeEnabled(mc.player, CardinalAbilities.PREVENT_MOVEMENT_INPUT.get())) return;
 
-        if (mc.options.keyUp.isDown()) {
-            mc.options.keyUp.setDown(false);
-        }
+            if (mc.options.keyUp.isDown()) {
+                mc.options.keyUp.setDown(false);
+            }
 
-        if (mc.options.keyDown.isDown()) {
-            mc.options.keyDown.setDown(false);
-        }
+            if (mc.options.keyDown.isDown()) {
+                mc.options.keyDown.setDown(false);
+            }
 
-        if (mc.options.keyLeft.isDown()) {
-            mc.options.keyLeft.setDown(false);
-        }
+            if (mc.options.keyLeft.isDown()) {
+                mc.options.keyLeft.setDown(false);
+            }
 
-        if (mc.options.keyRight.isDown()) {
-            mc.options.keyRight.setDown(false);
-        }
+            if (mc.options.keyRight.isDown()) {
+                mc.options.keyRight.setDown(false);
+            }
 
-        if (mc.options.keyJump.isDown()) {
-            mc.options.keyJump.setDown(false);
-        }
+            if (mc.options.keyJump.isDown()) {
+                mc.options.keyJump.setDown(false);
+            }
 
-        if (mc.options.keySprint.isDown()) {
-            mc.options.keySprint.setDown(false);
+            if (mc.options.keySprint.isDown()) {
+                mc.options.keySprint.setDown(false);
+            }
         }
     }
 

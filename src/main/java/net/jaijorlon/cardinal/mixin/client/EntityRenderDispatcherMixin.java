@@ -2,7 +2,6 @@ package net.jaijorlon.cardinal.mixin.client;
 
 import net.jaijorlon.cardinal.ability.CardinalAbilities;
 import net.minecraft.world.entity.LivingEntity;
-import net.threetag.palladium.power.ability.AbilityUtil;
 import org.joml.Quaternionf;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -38,17 +37,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 @Mixin(EntityRenderDispatcher.class)
 public abstract class EntityRenderDispatcherMixin {
-    /**
-     * @author Jaijorlon
-     * @reason stop shadow from rendering when ability is enabled
-     */
-    @Inject(method = "renderShadow", at = @At("HEAD"), cancellable = true)
-    private static void renderShadow(PoseStack p_114458_, MultiBufferSource p_114459_, Entity p_114460_, float p_114461_, float p_114462_, LevelReader p_114463_, float p_114464_, CallbackInfo ci) {
-        if (p_114460_ instanceof LivingEntity livingEntity) {
-            if (AbilityUtil.isTypeEnabled(livingEntity, CardinalAbilities.HIDE_SHADOW.get())) ci.cancel();
-        }
-    }
-
     @Shadow
     @Final
     private static RenderType SHADOW_RENDER_TYPE;

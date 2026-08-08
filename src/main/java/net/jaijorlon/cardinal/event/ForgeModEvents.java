@@ -3,7 +3,7 @@ package net.jaijorlon.cardinal.event;
 import net.jaijorlon.cardinal.Cardinal;
 import net.jaijorlon.cardinal.api.GravityChangerAPI;
 import net.jaijorlon.cardinal.capabilities.GravityCapabilityImpl;
-import net.jaijorlon.cardinal.config.CardinalConfig;
+import net.jaijorlon.cardinal.command.GravityCommand;
 import net.jaijorlon.cardinal.config.CardinalConfigHandler;
 import net.jaijorlon.cardinal.util.GCUtil;
 import net.jaijorlon.cardinal.util.PalladiumPropertyUtil;
@@ -14,8 +14,8 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import net.threetag.palladium.event.PalladiumEvents;
 
 import java.util.Objects;
 
@@ -23,15 +23,17 @@ import java.util.Objects;
 public class ForgeModEvents {
     @SubscribeEvent
     public static void onRegisterCommands(RegisterCommandsEvent event) {
-        //GravityCommand.register(event.getDispatcher());
+        GravityCommand.register(event.getDispatcher());
     }
 
     @SubscribeEvent
     public static void onEntityJoinLevel(EntityJoinLevelEvent event) {
         Entity entity = event.getEntity();
-        PalladiumEvents.REGISTER_PROPERTY.register(handler -> {
-            PalladiumPropertyUtil.registerProperty(handler, "forDoTestProperty", "boolean", false);
-        });
+        if (ModList.get().isLoaded("palladium")) {
+            net.threetag.palladium.event.PalladiumEvents.REGISTER_PROPERTY.register(handler -> {
+                PalladiumPropertyUtil.registerProperty(handler, "forDoTestProperty", "boolean", false);
+            });
+        }
 
         GCUtil.ENTITY_MAP.put(entity.getClass().hashCode(), entity);
         GCUtil.ENTITY_MAP2.put(entity.getClass().getSuperclass().hashCode(), entity);

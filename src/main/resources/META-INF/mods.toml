@@ -30,7 +30,7 @@ description='''${mod_description}'''
 
 [[dependencies.${mod_id}]]
     modId="palladium"
-    mandatory=true
+    mandatory=false
     versionRange="[4.2.0,)"
     ordering="AFTER"
     side="BOTH"

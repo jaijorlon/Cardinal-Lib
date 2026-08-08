@@ -22,12 +22,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.threetag.palladium.event.PalladiumEvents;
-import net.threetag.palladiumcore.event.CommandEvents;
 import org.slf4j.Logger;
 
 @Mod(Cardinal.MOD_ID)
@@ -54,18 +53,21 @@ public class Cardinal {
         ArgumentTypeInfos.registerByClass(DirectionArgumentType.class, SingletonArgumentInfo.contextFree(DirectionArgumentType::new));
         ArgumentTypeInfos.registerByClass(LocalDirectionArgumentType.class, SingletonArgumentInfo.contextFree(LocalDirectionArgumentType::new));
 
-        CommandEvents.REGISTER.register((dispatcher, selection) -> {
-            GravityCommand.register(dispatcher);
-            PalladiumPropertyCommand.register(dispatcher);
-        });
+        if (ModList.get().isLoaded("palladium")) {
+            net.threetag.palladiumcore.event.CommandEvents.REGISTER.register((dispatcher, selection) -> {
+                PalladiumPropertyCommand.register(dispatcher);
+            });
+        }
 
         GravityNetwork.registerMessages();
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, GravityCapabilities::attachEntityCapability);
     }
 
     public static void init() {
-        CardinalAbilities.ABILITIES.register();
-        CardinalConditionSerializers.CONDITION_SERIALIZERS.register();
+        if (ModList.get().isLoaded("palladium")) {
+            CardinalAbilities.ABILITIES.register();
+            CardinalConditionSerializers.CONDITION_SERIALIZERS.register();
+        }
 
         ModLoadingContext ctx = ModLoadingContext.get();
 
@@ -84,10 +86,11 @@ public class Cardinal {
         ArgumentTypeInfos.registerByClass(DirectionArgumentType.class, SingletonArgumentInfo.contextFree(DirectionArgumentType::new));
         ArgumentTypeInfos.registerByClass(LocalDirectionArgumentType.class, SingletonArgumentInfo.contextFree(LocalDirectionArgumentType::new));
 
-        CommandEvents.REGISTER.register((dispatcher, selection) -> {
-            GravityCommand.register(dispatcher);
-            PalladiumPropertyCommand.register(dispatcher);
-        });
+        if (ModList.get().isLoaded("palladium")) {
+            net.threetag.palladiumcore.event.CommandEvents.REGISTER.register((dispatcher, selection) -> {
+                PalladiumPropertyCommand.register(dispatcher);
+            });
+        }
 
         GravityNetwork.registerMessages();
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, GravityCapabilities::attachEntityCapability);

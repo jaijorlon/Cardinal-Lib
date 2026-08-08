@@ -75,7 +75,8 @@
     "client.LocalPlayerEntityMixin",
     "client.PlayerRendererMixin",
     "client.RemotePlayerEntityMixin",
-    "client.ScreenEffectRendererMixin"
+    "client.ScreenEffectRendererMixin",
+    "compat.PalladiumEntityRenderDispatcherMixin"
   ],
   "server": [
   ]

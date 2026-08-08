@@ -14,9 +14,11 @@ import java.util.Set;
 public class GravityMixinPlugin implements IMixinConfigPlugin {
 
     private static final boolean HAS_AC;
+    private static final boolean HAS_PALLADIUM;
 
     static {
         HAS_AC = hasClass("com.github.alexmodguy.alexscaves.AlexsCaves");
+        HAS_PALLADIUM = hasClass("net.threetag.palladium.Palladium");
     }
 
     @Override
@@ -34,6 +36,9 @@ public class GravityMixinPlugin implements IMixinConfigPlugin {
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         if (mixinClassName.equalsIgnoreCase("net.jaijorlon.cardinal.mixin.compat.ACEntityMixin")) {
             return HAS_AC;
+        }
+        if (mixinClassName.equalsIgnoreCase("net.jaijorlon.cardinal.mixin.compat.PalladiumEntityRenderDispatcherMixin")) {
+            return HAS_PALLADIUM;
         }
         return true;
     }
