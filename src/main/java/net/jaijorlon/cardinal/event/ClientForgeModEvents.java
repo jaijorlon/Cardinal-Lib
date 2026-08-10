@@ -64,6 +64,7 @@ public class ClientForgeModEvents {
 
     @SubscribeEvent
     public static void onRenderLevel(RenderLevelStageEvent event) {
+        /*
         if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_PARTICLES) return;
 
         Minecraft mc = Minecraft.getInstance();
@@ -82,7 +83,6 @@ public class ClientForgeModEvents {
         RenderSystem.disableCull();
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
-        /*
         for (Cow cow : list) {
 
             double x = Mth.lerp(event.getPartialTick(), cow.xOld, cow.getX());
@@ -101,10 +101,11 @@ public class ClientForgeModEvents {
 
             poseStack.popPose();
         }
-        */
 
         RenderSystem.enableCull();
         RenderSystem.disableBlend();
+
+         */
     }
 
     private static void drawFilledCircle(PoseStack poseStack, float radius, int segments) {
