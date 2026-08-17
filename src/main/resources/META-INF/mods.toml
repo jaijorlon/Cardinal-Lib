@@ -9,6 +9,9 @@ version="${mod_version}" #mandatory
 
 authors="${mod_authors}" #optional
 
+logoFile = "${logo_file}" #optional
+logoBlur = false #optional
+
 description='''${mod_description}'''
 
 [mods."lithium:options"]
