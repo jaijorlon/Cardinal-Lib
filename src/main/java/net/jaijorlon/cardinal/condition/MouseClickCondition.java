@@ -1,7 +1,6 @@
 package net.jaijorlon.cardinal.condition;
 
 import com.google.gson.JsonObject;
-import net.minecraft.client.Minecraft;
 import net.threetag.palladium.condition.Condition;
 import net.threetag.palladium.condition.ConditionEnvironment;
 import net.threetag.palladium.condition.ConditionSerializer;
@@ -31,11 +30,7 @@ public class MouseClickCondition extends MouseCondition {
             return false;
         }
 
-        Minecraft minecraft = Minecraft.getInstance();
-
-        assert minecraft.player != null;
-        if (minecraft.player.equals(entity)) {
-            if (minecraft.mouseHandler.isLeftPressed() && this.mouseButton.equals("left")) {
+            if (entity.getPersistentData().getBoolean("Untapped.MouseClickCondition.left") && this.mouseButton.equals("left")) {
                 if (entry.cooldown == 0 && !holdingDownLeft) {
                     entry.keyPressed = true;
                     holdingDownLeft = true;
@@ -49,7 +44,7 @@ public class MouseClickCondition extends MouseCondition {
                 holdingDownLeft = false;
             }
 
-            if (minecraft.mouseHandler.isRightPressed() && this.mouseButton.equals("right")) {
+            if (entity.getPersistentData().getBoolean("Untapped.MouseClickCondition.right") && this.mouseButton.equals("right")) {
                 if (entry.cooldown == 0 && !holdingDownRight) {
                     entry.keyPressed = true;
                     holdingDownRight = true;
@@ -62,7 +57,6 @@ public class MouseClickCondition extends MouseCondition {
             else {
                 holdingDownRight = false;
             }
-        }
 
         if (Objects.requireNonNull(entry).keyPressed) {
             entry.keyPressed = false;

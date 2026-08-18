@@ -1,21 +1,18 @@
 package net.jaijorlon.cardinal.event;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import net.jaijorlon.cardinal.Cardinal;
-
 import net.jaijorlon.cardinal.ability.CardinalAbilities;
-import net.minecraft.client.Camera;
+import net.jaijorlon.cardinal.network.PacketHandler;
+import net.jaijorlon.cardinal.network.packet.C2SHasInputKeyConditionPacket;
+import net.jaijorlon.cardinal.network.packet.C2SMouseClickConditionPacket;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.animal.Cow;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
@@ -24,16 +21,182 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.lwjgl.glfw.GLFW;
 
-import java.util.List;
+import java.util.Arrays;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, modid = Cardinal.MOD_ID, value = Dist.CLIENT)
 public class ClientForgeModEvents {
+
+    static boolean reverseR = false;
+    static boolean reverseG = false;
+    static boolean reverseB = false;
+    static float r = 1f, g = 0f, b = 0f;
+    static float r1 = 0f, g1 = 0f, b1 = 0f;
+
+    @SubscribeEvent
+    public static void onMouseInput(InputEvent.MouseButton event) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player == null) return;
+
+        assert mc.getCameraEntity() != null;
+        if (event.getAction() == GLFW.GLFW_PRESS) {
+            if (event.getButton() == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+                PacketHandler.sendToServer(new C2SMouseClickConditionPacket("left", true));
+            }
+
+            if (event.getButton() == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
+                PacketHandler.sendToServer(new C2SMouseClickConditionPacket("right", true));
+            }
+        } else {
+            if (event.getButton() == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+                PacketHandler.sendToServer(new C2SMouseClickConditionPacket("left", false));
+            }
+
+            if (event.getButton() == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
+                PacketHandler.sendToServer(new C2SMouseClickConditionPacket("right", false));
+            }
+        }
+    }
 
     @SubscribeEvent
     public static void onKeyInput(InputEvent.Key event) {
         if (ModList.get().isLoaded("palladium")) {
             Minecraft mc = Minecraft.getInstance();
+
+            if (mc.options.keyUp.isDown()) {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("up", true));
+            }
+            else {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("up", false));
+            }
+
+            if (mc.options.keyDown.isDown()) {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("down", true));
+            }
+            else {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("down", false));
+            }
+
+            if (mc.options.keyLeft.isDown()) {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("left", true));
+            }
+            else {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("left", false));
+            }
+
+            if (mc.options.keyRight.isDown()) {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("right", true));
+            }
+            else {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("right", false));
+            }
+
+            if (mc.options.keyJump.isDown()) {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("jump", true));
+            }
+            else {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("jump", false));
+            }
+
+            if (mc.options.keySprint.isDown()) {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("sprint", true));
+            }
+            else {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("sprint", false));
+            }
+
+            if (mc.options.keyUse.isDown()) {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("use", true));
+            }
+            else {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("use", false));
+            }
+
+            if (mc.options.keyAttack.isDown()) {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("attack", true));
+            }
+            else {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("attack", false));
+            }
+
+            if (mc.options.keyShift.isDown()) {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("shift", true));
+            }
+            else {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("shift", false));
+            }
+
+            if (mc.options.keyAdvancements.isDown()) {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("advancements", true));
+            }
+            else {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("advancements", false));
+            }
+
+            if (mc.options.keyChat.isDown()) {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("chat", true));
+            }
+            else {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("chat", false));
+            }
+
+            if (mc.options.keyCommand.isDown()) {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("command", true));
+            }
+            else {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("command", false));
+            }
+
+            if (mc.options.keyDrop.isDown()) {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("drop", true));
+            }
+            else {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("drop", false));
+            }
+
+            if (mc.options.keyFullscreen.isDown()) {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("fullscreen", true));
+            }
+            else {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("fullscreen", false));
+            }
+
+            if (mc.options.keyInventory.isDown()) {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("inventory", true));
+            }
+            else {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("inventory", false));
+            }
+
+            if (mc.options.keyPickItem.isDown()) {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("pick_item", true));
+            }
+            else {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("pick_item", false));
+            }
+
+            if (mc.options.keySwapOffhand.isDown()) {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("offhand", true));
+            }
+            else {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("offhand", false));
+            }
+
+            if (mc.options.keyTogglePerspective.isDown()) {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("toggle_perspective", true));
+            }
+            else {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("toggle_perspective", false));
+            }
+
+            if (mc.options.keySmoothCamera.isDown()) {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("smooth_camera", true));
+            }
+            else {
+                PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("smooth_camera", false));
+            }
+
             if (!net.threetag.palladium.power.ability.AbilityUtil.isTypeEnabled(mc.player, CardinalAbilities.PREVENT_MOVEMENT_INPUT.get())) return;
 
             if (mc.options.keyUp.isDown()) {
@@ -161,13 +324,6 @@ public class ClientForgeModEvents {
 
         poseStack.popPose();
     }
-
-    static boolean reverseR = false;
-    static boolean reverseG = false;
-    static boolean reverseB = false;
-
-    static float r = 1f, g = 0f, b = 0f;
-    static float r1 = 0f, g1 = 0f, b1 = 0f;
 
     private static void shadowVertex(PoseStack.Pose pose, VertexConsumer vc, float alpha, float x, float y, float z, float u, float v, float time) {
         if (time % 3 == 0) {
