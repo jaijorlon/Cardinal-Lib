@@ -9,10 +9,12 @@ public class CardinalAbilities {
     public static final DeferredRegister<Ability> ABILITIES;
     public static final RegistrySupplier<Ability> HIDE_SHADOW;
     public static final RegistrySupplier<Ability> PREVENT_MOVEMENT_INPUT;
+    public static final RegistrySupplier<Ability> SURFACE_MOVEMENT;
 
     static {
         ABILITIES = DeferredRegister.create(Cardinal.MOD_ID, Ability.REGISTRY);
         HIDE_SHADOW = ABILITIES.register("hide_shadow", HideShadowAbility::new);
         PREVENT_MOVEMENT_INPUT = ABILITIES.register("prevent_movement_input", PreventMovementInputAbility::new);
+        SURFACE_MOVEMENT = ABILITIES.register("surface_movement", SurfaceMovementAbility::new);
     }
 }
