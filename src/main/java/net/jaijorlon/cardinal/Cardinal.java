@@ -67,6 +67,7 @@ public class Cardinal {
         if (ModList.get().isLoaded("palladium")) {
             CardinalAbilities.ABILITIES.register();
             CardinalConditionSerializers.CONDITION_SERIALIZERS.register();
+            CardinalPalladiumProperties.init();
         }
 
         ModLoadingContext ctx = ModLoadingContext.get();

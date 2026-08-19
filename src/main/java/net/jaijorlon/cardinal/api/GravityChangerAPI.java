@@ -56,11 +56,11 @@ public abstract class GravityChangerAPI {
         return getGravityComponent(entity).getBaseGravityDirection();
     }
     
-    public static void setBaseGravityDirection(
-        Entity entity, Direction gravityDirection
-    ) {
+    public static void setBaseGravityDirection(Entity entity, Direction gravityDirection) {
         GravityCapabilityImpl component = getGravityComponent(entity);
-        component.setBaseGravityDirection(gravityDirection);
+        if (gravityDirection != null) {
+            component.setBaseGravityDirection(gravityDirection);
+        }
     }
     
     @Nullable
