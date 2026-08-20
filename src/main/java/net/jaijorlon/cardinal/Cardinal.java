@@ -57,6 +57,11 @@ public class Cardinal {
             net.threetag.palladiumcore.event.CommandEvents.REGISTER.register((dispatcher, selection) -> {
                 PalladiumPropertyCommand.register(dispatcher);
             });
+
+            net.threetag.palladiumcore.forge.PalladiumCoreForge.registerModEventBus(Cardinal.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
+            CardinalAbilities.ABILITIES.register();
+            CardinalConditionSerializers.CONDITION_SERIALIZERS.register();
+            CardinalPalladiumProperties.init();
         }
 
         GravityNetwork.registerMessages();

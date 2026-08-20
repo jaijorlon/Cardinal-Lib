@@ -5,10 +5,9 @@ pluginManagement {
             name = 'MinecraftForge'
             url = 'https://maven.minecraftforge.net/'
         }
-        maven {
-            url "https://jitpack.io"
-            credentials { username authToken }
-        }
+        maven { url 'https://jitpack.io' }
+        maven { url = 'https://maven.parchmentmc.org' }
+        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
     }
 }
 
