@@ -179,7 +179,8 @@ dependencies {
     }
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
-
+    //Aliens Untapped
+    implementation fg.deobf("com.github.jaijorlon:Aliens-Untapped:master-SNAPSHOT");
 
     // Palladium
     // Palladium (runtime only if you don’t call its API)
