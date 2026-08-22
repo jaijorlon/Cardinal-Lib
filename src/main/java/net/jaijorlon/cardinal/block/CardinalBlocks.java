@@ -1,8 +1,8 @@
-package net.jaijorlon.cardinal.init;
+package net.jaijorlon.cardinal.block;
 
 import net.jaijorlon.cardinal.Cardinal;
-import net.jaijorlon.cardinal.plating.GravityPlatingBlock;
-import net.jaijorlon.cardinal.plating.GravityPlatingBlockEntity;
+import net.jaijorlon.cardinal.block.custom.GravityPlatingBlock;
+import net.jaijorlon.cardinal.block.entity.GravityPlatingBlockEntity;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;

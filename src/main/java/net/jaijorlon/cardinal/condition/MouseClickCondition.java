@@ -30,7 +30,7 @@ public class MouseClickCondition extends MouseCondition {
             return false;
         }
 
-            if (entity.getPersistentData().getBoolean("Untapped.MouseClickCondition.left") && this.mouseButton.equals("left")) {
+            if (entity.getPersistentData().getBoolean("Cardinal.MouseClickCondition.left") && this.mouseButton.equals("left")) {
                 if (entry.cooldown == 0 && !holdingDownLeft) {
                     entry.keyPressed = true;
                     holdingDownLeft = true;
@@ -44,7 +44,7 @@ public class MouseClickCondition extends MouseCondition {
                 holdingDownLeft = false;
             }
 
-            if (entity.getPersistentData().getBoolean("Untapped.MouseClickCondition.right") && this.mouseButton.equals("right")) {
+            if (entity.getPersistentData().getBoolean("Cardinal.MouseClickCondition.right") && this.mouseButton.equals("right")) {
                 if (entry.cooldown == 0 && !holdingDownRight) {
                     entry.keyPressed = true;
                     holdingDownRight = true;

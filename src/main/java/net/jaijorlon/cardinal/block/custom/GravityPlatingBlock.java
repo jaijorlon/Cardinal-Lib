@@ -1,4 +1,4 @@
-package net.jaijorlon.cardinal.plating;
+package net.jaijorlon.cardinal.block.custom;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,10 +6,11 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import net.jaijorlon.cardinal.block.entity.GravityPlatingBlockEntity;
 import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.ImmutableMap;
-import net.jaijorlon.cardinal.init.CardinalBlocks;
+import net.jaijorlon.cardinal.block.CardinalBlocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

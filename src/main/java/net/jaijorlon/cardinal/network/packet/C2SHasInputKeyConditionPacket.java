@@ -31,7 +31,7 @@ public class C2SHasInputKeyConditionPacket {
             if (player == null) return;
 
 
-            player.getPersistentData().putBoolean("Untapped.HasInputKeyCondition."+this.key, this.value);
+            player.getPersistentData().putBoolean("Cardinal.HasInputKeyCondition."+this.key, this.value);
         });
         contextSupplier.get().setPacketHandled(true);
     }

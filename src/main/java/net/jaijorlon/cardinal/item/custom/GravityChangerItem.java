@@ -1,4 +1,4 @@
-package net.jaijorlon.cardinal.item;
+package net.jaijorlon.cardinal.item.custom;
 
 import java.util.List;
 

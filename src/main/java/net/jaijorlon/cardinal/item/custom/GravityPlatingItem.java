@@ -1,11 +1,11 @@
-package net.jaijorlon.cardinal.plating;
+package net.jaijorlon.cardinal.item.custom;
 
 import java.util.List;
 
+import net.jaijorlon.cardinal.item.CardinalItems;
+import net.jaijorlon.cardinal.block.entity.GravityPlatingBlockEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import net.jaijorlon.cardinal.init.CardinalItems;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;

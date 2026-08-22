@@ -31,7 +31,7 @@ public class C2SMouseClickConditionPacket {
             if (player == null) return;
 
 
-            player.getPersistentData().putBoolean("Untapped.MouseClickCondition."+this.key, this.value);
+            player.getPersistentData().putBoolean("Cardinal.MouseClickCondition."+this.key, this.value);
         });
         contextSupplier.get().setPacketHandled(true);
     }

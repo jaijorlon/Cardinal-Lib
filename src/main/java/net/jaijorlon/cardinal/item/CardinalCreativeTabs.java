@@ -1,7 +1,7 @@
-package net.jaijorlon.cardinal.init;
+package net.jaijorlon.cardinal.item;
 
-import net.jaijorlon.cardinal.plating.GravityPlatingBlockEntity;
-import net.jaijorlon.cardinal.plating.GravityPlatingItem;
+import net.jaijorlon.cardinal.item.custom.GravityPlatingItem;
+import net.jaijorlon.cardinal.block.entity.GravityPlatingBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;

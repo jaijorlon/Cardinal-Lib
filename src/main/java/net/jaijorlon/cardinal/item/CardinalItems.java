@@ -1,11 +1,12 @@
-package net.jaijorlon.cardinal.init;
+package net.jaijorlon.cardinal.item;
 
-import net.jaijorlon.cardinal.item.GravityAnchorItem;
-import net.jaijorlon.cardinal.item.GravityChangerItem;
-import net.jaijorlon.cardinal.item.GravityChangerItemAOE;
-import net.jaijorlon.cardinal.plating.GravityPlatingItem;
+import net.jaijorlon.cardinal.block.CardinalBlocks;
 
 import net.jaijorlon.cardinal.Cardinal;
+import net.jaijorlon.cardinal.item.custom.GravityAnchorItem;
+import net.jaijorlon.cardinal.item.custom.GravityChangerItem;
+import net.jaijorlon.cardinal.item.custom.GravityChangerItemAOE;
+import net.jaijorlon.cardinal.item.custom.GravityPlatingItem;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;

@@ -1,17 +1,18 @@
-package net.jaijorlon.cardinal.plating;
+package net.jaijorlon.cardinal.block.entity;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import net.jaijorlon.cardinal.block.custom.GravityPlatingBlock;
 import net.jaijorlon.cardinal.config.CardinalConfigHandler;
+import net.jaijorlon.cardinal.item.custom.GravityPlatingItem;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.Nullable;
 
 import net.jaijorlon.cardinal.EntityTags;
 import net.jaijorlon.cardinal.api.GravityChangerAPI;
 import net.jaijorlon.cardinal.capabilities.GravityCapabilityImpl;
-import net.jaijorlon.cardinal.config.CardinalConfig;
-import net.jaijorlon.cardinal.init.CardinalBlocks;
+import net.jaijorlon.cardinal.block.CardinalBlocks;
 import net.jaijorlon.cardinal.util.GCUtil;
 import net.jaijorlon.cardinal.util.RotationUtil;
 
