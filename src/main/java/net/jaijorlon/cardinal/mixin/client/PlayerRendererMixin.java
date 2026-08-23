@@ -48,11 +48,11 @@ public abstract class PlayerRendererMixin {
             }
 
             if (gravityDirection == Direction.NORTH) {
-                cir.setReturnValue(new Vec3(0.0D, 0.0D, 0.125D));
+                cir.setReturnValue(new Vec3(0.0D, 0.0D, -0.125D));
             }
 
             if (gravityDirection == Direction.SOUTH) {
-                cir.setReturnValue(new Vec3(0.0D, 0.0D, -0.125D));
+                cir.setReturnValue(new Vec3(0.0D, 0.0D, 0.125D));
             }
 
             if (gravityDirection == Direction.EAST) {
