@@ -2,15 +2,14 @@ package net.jaijorlon.cardinal;
 
 import net.jaijorlon.cardinal.ability.CardinalAbilities;
 import net.jaijorlon.cardinal.capabilities.GravityCapabilities;
-import net.jaijorlon.cardinal.command.GravityCommand;
 import net.jaijorlon.cardinal.command.PalladiumPropertyCommand;
 import net.jaijorlon.cardinal.command.DirectionArgumentType;
 import net.jaijorlon.cardinal.command.LocalDirectionArgumentType;
 import net.jaijorlon.cardinal.command.OperationArgumentType;
 import net.jaijorlon.cardinal.condition.CardinalConditionSerializers;
-import net.jaijorlon.cardinal.init.CardinalBlocks;
-import net.jaijorlon.cardinal.init.CardinalCreativeTabs;
-import net.jaijorlon.cardinal.init.CardinalItems;
+import net.jaijorlon.cardinal.block.CardinalBlocks;
+import net.jaijorlon.cardinal.item.CardinalCreativeTabs;
+import net.jaijorlon.cardinal.item.CardinalItems;
 import net.jaijorlon.cardinal.mob_effect.CardinalMobEffects;
 import net.jaijorlon.cardinal.network.GravityNetwork;
 import net.jaijorlon.cardinal.config.CardinalConfig;

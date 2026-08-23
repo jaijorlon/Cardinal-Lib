@@ -7,10 +7,6 @@ import net.threetag.palladium.event.PalladiumEvents;
 
 public class CardinalPalladiumProperties {
     public static void init() {
-        PalladiumEvents.REGISTER_PROPERTY.register(handler -> {
-            if (!(handler.getEntity() instanceof CustomProjectile) && !(handler.getEntity() instanceof Projectile)) {
-                PalladiumPropertyUtil.registerProperty(handler, "gravityDir", "string", "");
-            }
-        });
+        PalladiumEvents.REGISTER_PROPERTY.register(handler -> {});
     }
 }

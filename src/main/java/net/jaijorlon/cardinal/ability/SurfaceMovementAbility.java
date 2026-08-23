@@ -1,174 +1,232 @@
 package net.jaijorlon.cardinal.ability;
 
 import net.jaijorlon.cardinal.api.GravityChangerAPI;
-import net.jaijorlon.cardinal.capabilities.GravityCapabilityImpl;
-import net.jaijorlon.cardinal.plating.GravityPlatingBlock;
-import net.jaijorlon.cardinal.util.PalladiumPropertyUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import net.threetag.palladium.power.IPowerHolder;
 import net.threetag.palladium.power.ability.Ability;
 import net.threetag.palladium.power.ability.AbilityInstance;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class SurfaceMovementAbility extends Ability {
     @Override
     public void tick(LivingEntity entity, AbilityInstance entry, IPowerHolder holder, boolean enabled) {
-            if (enabled) {
-                Direction Grav = null;
-                BlockPos blockPos = entity.blockPosition();
+        if (enabled) {
+            if (entity.level().isClientSide()) return;
 
-                if (!entity.level().getBlockState(blockPos.offset(1, 0, 0)).isCollisionShapeFullBlock(entity.level(), new BlockPos(blockPos.offset(1, 0, 0))) && !entity.level().getBlockState(blockPos.offset(-1, 0, 0)).isCollisionShapeFullBlock(entity.level(), new BlockPos(blockPos.offset(-1, 0, 0))) && !entity.level().getBlockState(blockPos.offset(0, 0, 1)).isCollisionShapeFullBlock(entity.level(), new BlockPos(blockPos.offset(0, 0, 1))) && !entity.level().getBlockState(blockPos.offset(0, 0, -1)).isCollisionShapeFullBlock(entity.level(), new BlockPos(blockPos.offset(0, 0, -1))) && !entity.level().getBlockState(blockPos.offset(1, 1, 0)).isCollisionShapeFullBlock(entity.level(), new BlockPos(blockPos.offset(1, 1, 0))) && !entity.level().getBlockState(blockPos.offset(-1, 1, 0)).isCollisionShapeFullBlock(entity.level(), new BlockPos(blockPos.offset(-1, 1, 0))) && !entity.level().getBlockState(blockPos.offset(1, 1, 1)).isCollisionShapeFullBlock(entity.level(), new BlockPos(blockPos.offset(1, 1, 1))) && !entity.level().getBlockState(blockPos.offset(-1, 1, 1)).isCollisionShapeFullBlock(entity.level(), new BlockPos(blockPos.offset(-1, 1, 1))) && !entity.level().getBlockState(blockPos.offset(1, 1, -1)).isCollisionShapeFullBlock(entity.level(), new BlockPos(blockPos.offset(1, 1, -1))) && !entity.level().getBlockState(blockPos.offset(-1, 1, -1)).isCollisionShapeFullBlock(entity.level(), new BlockPos(blockPos.offset(-1, 1, 1)))) {
-                    Grav = Direction.DOWN;
-                    GravityChangerAPI.setBaseGravityDirection(entity, Grav);
-                }
+            Direction Grav = null;
+            BlockPos blockPos = entity.blockPosition();
+            Direction baseGravityDirection = GravityChangerAPI.getBaseGravityDirection(entity);
+            boolean shouldAttach = true;
+            String movementDirectionHorizontal = "";
+            String movementDirectionVertical = "";
+            boolean flipHorizontal = (entity.getYRot() > -90 && entity.getYRot() < 90) && !baseGravityDirection.equals(Direction.DOWN);
+            boolean flipVertical = (entity.getYRot() > -180 && entity.getYRot() < 0) && !baseGravityDirection.equals(Direction.DOWN);
+            boolean innerMovement = false;
 
-                if (entity.getPersistentData().getInt("gravityCooldown") > 0) {
-                    entity.getPersistentData().putInt("gravityCooldown", entity.getPersistentData().getInt("gravityCooldown") - 1);
-                }
+            if (!entity.level().getBlockState(blockPos.offset(1, 0, 0)).isCollisionShapeFullBlock(entity.level(), new BlockPos(blockPos.offset(1, 0, 0))) && !entity.level().getBlockState(blockPos.offset(-1, 0, 0)).isCollisionShapeFullBlock(entity.level(), new BlockPos(blockPos.offset(-1, 0, 0))) && !entity.level().getBlockState(blockPos.offset(0, 0, 1)).isCollisionShapeFullBlock(entity.level(), new BlockPos(blockPos.offset(0, 0, 1))) && !entity.level().getBlockState(blockPos.offset(0, 0, -1)).isCollisionShapeFullBlock(entity.level(), new BlockPos(blockPos.offset(0, 0, -1))) && !entity.level().getBlockState(blockPos.offset(1, 1, 0)).isCollisionShapeFullBlock(entity.level(), new BlockPos(blockPos.offset(1, 1, 0))) && !entity.level().getBlockState(blockPos.offset(-1, 1, 0)).isCollisionShapeFullBlock(entity.level(), new BlockPos(blockPos.offset(-1, 1, 0))) && !entity.level().getBlockState(blockPos.offset(1, 1, 1)).isCollisionShapeFullBlock(entity.level(), new BlockPos(blockPos.offset(1, 1, 1))) && !entity.level().getBlockState(blockPos.offset(-1, 1, 1)).isCollisionShapeFullBlock(entity.level(), new BlockPos(blockPos.offset(-1, 1, 1))) && !entity.level().getBlockState(blockPos.offset(1, 1, -1)).isCollisionShapeFullBlock(entity.level(), new BlockPos(blockPos.offset(1, 1, -1))) && !entity.level().getBlockState(blockPos.offset(-1, 1, -1)).isCollisionShapeFullBlock(entity.level(), new BlockPos(blockPos.offset(-1, 1, 1)))) {
+                Grav = Direction.DOWN;
+                GravityChangerAPI.setBaseGravityDirection(entity, Grav);
+                entity.sendSystemMessage(Component.literal(String.valueOf("no valid surfaces to attach to")));
+            }
 
-                if (entity.getPersistentData().getInt("gravityCooldown") > 0) return;
+            String[] directions = new String[]{"north", "east", "south", "west", "up", "down"};
 
-                if (!Objects.equals(PalladiumPropertyUtil.getString(entity, "gravityDir"), "down") && !Objects.equals(PalladiumPropertyUtil.getString(entity, "gravityDir"), "up") && !Objects.equals(PalladiumPropertyUtil.getString(entity, "gravityDir"), "west") && !Objects.equals(PalladiumPropertyUtil.getString(entity, "gravityDir"), "east")) {
-                    BlockPos block = blockPos.north();
-                    if (!entity.level().getBlockState(block).isCollisionShapeFullBlock(entity.level(), block)) {
-                        if (canMoveTo(block, entity) != null) {
-                            if (canMoveTo(block, entity).contains("up")) {
-                                Grav = Direction.UP;
-                            }
-                            if (canMoveTo(block, entity).contains("down")) {
-                                Grav = Direction.DOWN;
-                            }
-                            if (canMoveTo(block, entity).contains("west")) {
-                                Grav = Direction.WEST;
-                            }
-                            if (canMoveTo(block, entity).contains("east")) {
-                                Grav = Direction.EAST;
-                            }
-                        }
-                        entity.getPersistentData().putInt("gravityCooldown", 5);
-                        GravityChangerAPI.setBaseGravityDirection(entity, Grav);
-                    }
-
-                    block = blockPos.south();
-                    if (!entity.level().getBlockState(block).isCollisionShapeFullBlock(entity.level(), block)) {
-                        if (canMoveTo(block, entity) != null) {
-                            if (canMoveTo(block, entity).contains("up")) {
-                                Grav = Direction.UP;
-                            }
-                            if (canMoveTo(block, entity).contains("down")) {
-                                Grav = Direction.DOWN;
-                            }
-                            if (canMoveTo(block, entity).contains("west")) {
-                                Grav = Direction.WEST;
-                            }
-                            if (canMoveTo(block, entity).contains("east")) {
-                                Grav = Direction.EAST;
-                            }
-                        }
-                        entity.getPersistentData().putInt("gravityCooldown", 5);
-                        GravityChangerAPI.setBaseGravityDirection(entity, Grav);
-                    }
-                } else if (!Objects.equals(PalladiumPropertyUtil.getString(entity, "gravityDir"), "down") && !Objects.equals(PalladiumPropertyUtil.getString(entity, "gravityDir"), "up") && !Objects.equals(PalladiumPropertyUtil.getString(entity, "gravityDir"), "north") && !Objects.equals(PalladiumPropertyUtil.getString(entity, "gravityDir"), "south")) {
-                    BlockPos block = blockPos.west();
-                    if (!entity.level().getBlockState(block).isCollisionShapeFullBlock(entity.level(), block)) {
-                        if (canMoveTo(block, entity) != null) {
-                            if (canMoveTo(block, entity).contains("up")) {
-                                Grav = Direction.UP;
-                            }
-                            if (canMoveTo(block, entity).contains("down")) {
-                                Grav = Direction.DOWN;
-                            }
-                            if (canMoveTo(block, entity).contains("north")) {
-                                Grav = Direction.NORTH;
-                            }
-                            if (canMoveTo(block, entity).contains("south")) {
-                                Grav = Direction.SOUTH;
-                            }
-                        }
-                        entity.getPersistentData().putInt("gravityCooldown", 5);
-                        GravityChangerAPI.setBaseGravityDirection(entity, Grav);
-                    }
-
-                    block = blockPos.east();
-                    if (!entity.level().getBlockState(block).isCollisionShapeFullBlock(entity.level(), block)) {
-                        if (canMoveTo(block, entity) != null) {
-                            if (canMoveTo(block, entity).contains("up")) {
-                                Grav = Direction.UP;
-                            }
-                            if (canMoveTo(block, entity).contains("down")) {
-                                Grav = Direction.DOWN;
-                            }
-                            if (canMoveTo(block, entity).contains("north")) {
-                                Grav = Direction.NORTH;
-                            }
-                            if (canMoveTo(block, entity).contains("south")) {
-                                Grav = Direction.SOUTH;
-                            }
-                        }
-                        entity.getPersistentData().putInt("gravityCooldown", 5);
-                        GravityChangerAPI.setBaseGravityDirection(entity, Grav);
-                    }
-                } else {
-                    BlockPos block = blockPos.below();
-
-                    if (!entity.level().getBlockState(block).isCollisionShapeFullBlock(entity.level(), block)) {
-                        if (canMoveTo(block, entity) != null) {
-                            if (canMoveTo(block, entity).contains("west")) {
-                                Grav = Direction.WEST;
-                            }
-                            if (canMoveTo(block, entity).contains("east")) {
-                                Grav = Direction.EAST;
-                            }
-                            if (canMoveTo(block, entity).contains("south")) {
-                                Grav = Direction.SOUTH;
-                            }
-                            if (canMoveTo(block, entity).contains("north")) {
-                                Grav = Direction.NORTH;
-                            }
-                        }
-                        entity.getPersistentData().putInt("gravityCooldown", 5);
-                        GravityChangerAPI.setBaseGravityDirection(entity, Grav);
-                    }
-
-                    block = blockPos.above();
-                    if (!entity.level().getBlockState(block).isCollisionShapeFullBlock(entity.level(), block)) {
-                        if (canMoveTo(block, entity) != null) {
-                            if (canMoveTo(block, entity).contains("up")) {
-                                Grav = Direction.UP;
-                            }
-                            if (canMoveTo(block, entity).contains("west")) {
-                                Grav = Direction.WEST;
-                            }
-                            if (canMoveTo(block, entity).contains("east")) {
-                                Grav = Direction.EAST;
-                            }
-                            if (canMoveTo(block, entity).contains("south")) {
-                                Grav = Direction.SOUTH;
-                            }
-                            if (canMoveTo(block, entity).contains("north")) {
-                                Grav = Direction.NORTH;
-                            }
-                        }
-
-                        entity.getPersistentData().putInt("gravityCooldown", 5);
-                        GravityChangerAPI.setBaseGravityDirection(entity, Grav);
-                    }
+            for (String direction : directions) {
+                if (entity.getPersistentData().getInt(direction + "GravityCooldown") > 0) {
+                    entity.getPersistentData().putInt(direction + "GravityCooldown", entity.getPersistentData().getInt(direction + "GravityCooldown") - 1);
                 }
             }
+
+            if (!baseGravityDirection.equals(Direction.NORTH)) {
+                BlockPos block = blockPos.north();
+                Grav = Direction.NORTH;
+                BlockPos blockDirectionPos = block.west();
+
+                if (baseGravityDirection.equals(Direction.DOWN) && entity.getDirection().equals(Grav)) {
+                    shouldAttach = entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition.up");
+                }
+                else if (!baseGravityDirection.equals(Direction.DOWN)) {
+                    shouldAttach = !(entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition.left") || entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition.right"));
+                }
+
+                if (baseGravityDirection.equals(Direction.WEST)) {
+                    if (entity.level().getBlockState(block).isCollisionShapeFullBlock(entity.level(), block) && entity.level().getBlockState(blockPos.west()).isCollisionShapeFullBlock(entity.level(), blockPos.west())) {
+                        innerMovement = true;
+                    }
+
+                    movementDirectionHorizontal = (flipHorizontal || innerMovement) ? "right" : "left";
+                    movementDirectionVertical = (flipVertical || innerMovement) ? "down" : "up";
+                }
+                if (baseGravityDirection.equals( Direction.EAST)) {
+                    if (entity.level().getBlockState(block).isCollisionShapeFullBlock(entity.level(), block) && entity.level().getBlockState(blockPos.east()).isCollisionShapeFullBlock(entity.level(), blockPos.east())) {
+                        innerMovement = true;
+                    }
+
+                    movementDirectionHorizontal = (flipHorizontal || innerMovement) ? "left" : "right";
+                    movementDirectionVertical = (flipVertical || innerMovement) ? "up" : "down";
+                    blockDirectionPos = block.east();
+                }
+
+                if (!entity.level().getBlockState(blockPos.west()).isCollisionShapeFullBlock(entity.level(), blockPos.west()) && !entity.level().getBlockState(block).isCollisionShapeFullBlock(entity.level(), block) && !entity.level().getBlockState(blockDirectionPos.south()).isCollisionShapeFullBlock(entity.level(), blockDirectionPos.south()) && entity.level().getBlockState(blockDirectionPos).isCollisionShapeFullBlock(entity.level(), blockDirectionPos) && (entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition."+movementDirectionHorizontal) || entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition."+movementDirectionVertical))) {
+                    GravityChangerAPI.setBaseGravityDirection(entity, Grav);
+                    entity.getPersistentData().putInt("northGravityCooldown", 20);
+                    entity.sendSystemMessage(Component.literal(String.valueOf("north")));
+                    return;
+                }
+                else if (innerMovement && isNearCenterBlock(entity, block) && baseGravityDirection.equals(Direction.WEST) && (entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition."+movementDirectionHorizontal) || entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition."+movementDirectionVertical))) {
+                    GravityChangerAPI.setBaseGravityDirection(entity, Grav);
+                    entity.sendSystemMessage(Component.literal(String.valueOf("west to north")));
+                    return;
+                }
+                else if (innerMovement && isNearCenterBlock(entity, block) && baseGravityDirection.equals(Direction.EAST) && (entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition."+movementDirectionHorizontal) || entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition."+movementDirectionVertical))) {
+                    GravityChangerAPI.setBaseGravityDirection(entity, Grav);
+                    entity.sendSystemMessage(Component.literal(String.valueOf("east to north")));
+                    return;
+                }
+                else if (entity.level().getBlockState(block).isCollisionShapeFullBlock(entity.level(), block) && shouldAttach && baseGravityDirection.equals(Direction.DOWN)) {
+                    GravityChangerAPI.setBaseGravityDirection(entity, Grav);
+                    entity.sendSystemMessage(Component.literal(String.valueOf("north2")));
+                    return;
+                }
+            }
+
+            if (!baseGravityDirection.equals(Direction.SOUTH)) {
+                BlockPos block = blockPos.south();
+                Grav = Direction.SOUTH;
+                BlockPos blockDirectionPos = block.east();
+
+                if (baseGravityDirection.equals(Direction.DOWN) && entity.getDirection().equals(Grav)) {
+                    shouldAttach = entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition.up");
+                }
+                else if (!baseGravityDirection.equals(Direction.DOWN)) {
+                    shouldAttach = !(entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition.left") || entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition.right"));
+                }
+
+                if (baseGravityDirection.equals(Direction.WEST)) {
+                    movementDirectionHorizontal = (flipHorizontal || innerMovement) ? "left" : "right";
+                    movementDirectionVertical = (flipVertical || innerMovement) ? "up" : "down";
+                    blockDirectionPos = block.west();
+                }
+                if (baseGravityDirection.equals(Direction.EAST)) {
+                    movementDirectionHorizontal = (flipHorizontal || innerMovement) ? "right" : "left";
+                    movementDirectionVertical = (flipVertical || innerMovement) ? "down" : "up";
+                }
+
+                if (!entity.level().getBlockState(blockPos.east()).isCollisionShapeFullBlock(entity.level(), blockPos.east()) && !entity.level().getBlockState(block).isCollisionShapeFullBlock(entity.level(), block) && !entity.level().getBlockState(blockDirectionPos.north()).isCollisionShapeFullBlock(entity.level(), blockDirectionPos.north()) && entity.level().getBlockState(blockDirectionPos).isCollisionShapeFullBlock(entity.level(), blockDirectionPos) && (entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition."+movementDirectionHorizontal) || entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition."+movementDirectionVertical))) {
+                    GravityChangerAPI.setBaseGravityDirection(entity, Grav);
+                    entity.getPersistentData().putInt("southGravityCooldown", 20);
+                    entity.sendSystemMessage(Component.literal(String.valueOf("south")));
+                    return;
+                }
+                else if (entity.level().getBlockState(block).isCollisionShapeFullBlock(entity.level(), block) && shouldAttach) {
+                    GravityChangerAPI.setBaseGravityDirection(entity, Grav);
+                    entity.sendSystemMessage(Component.literal(String.valueOf("south2")));
+                    return;
+                }
+            }
+
+            if (!baseGravityDirection.equals(Direction.EAST)) {
+                BlockPos block = blockPos.east();
+                Grav = Direction.EAST;
+                BlockPos blockDirectionPos = block.north();
+
+                if (baseGravityDirection.equals(Direction.DOWN) && entity.getDirection().equals(Grav)) {
+                    shouldAttach = entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition.up");
+                }
+                else if (!baseGravityDirection.equals(Direction.DOWN)) {
+                    shouldAttach = !(entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition.left") || entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition.right"));
+                }
+
+                if (baseGravityDirection.equals(Direction.NORTH)) {
+                    if (entity.level().getBlockState(block).isCollisionShapeFullBlock(entity.level(), block) && entity.level().getBlockState(blockPos.north()).isCollisionShapeFullBlock(entity.level(), blockPos.north())) {
+                        innerMovement = true;
+                    }
+
+                    movementDirectionHorizontal = (flipHorizontal || innerMovement) ? "right" : "left";
+                    movementDirectionVertical = (flipVertical || innerMovement) ? "down" : "up";
+                }
+                if (baseGravityDirection.equals(Direction.SOUTH)) {
+                    if (entity.level().getBlockState(block).isCollisionShapeFullBlock(entity.level(), block) && entity.level().getBlockState(blockPos.south()).isCollisionShapeFullBlock(entity.level(), blockPos.south())) {
+                        innerMovement = true;
+                    }
+
+                    movementDirectionHorizontal = (flipHorizontal || innerMovement) ? "left" : "right";
+                    movementDirectionVertical = (flipVertical || innerMovement) ? "up" : "down";
+                    blockDirectionPos = block.south();
+                }
+
+                if (!entity.level().getBlockState(blockPos.north()).isCollisionShapeFullBlock(entity.level(), blockPos.north()) && !entity.level().getBlockState(block).isCollisionShapeFullBlock(entity.level(), block) && !entity.level().getBlockState(blockDirectionPos.west()).isCollisionShapeFullBlock(entity.level(), blockDirectionPos.west()) && entity.level().getBlockState(blockDirectionPos).isCollisionShapeFullBlock(entity.level(), blockDirectionPos) && (entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition."+movementDirectionHorizontal) || entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition."+movementDirectionVertical))) {
+                    GravityChangerAPI.setBaseGravityDirection(entity, Grav);
+                    entity.getPersistentData().putInt("eastGravityCooldown", 20);
+                    entity.sendSystemMessage(Component.literal(String.valueOf("east")));
+                    return;
+                }
+                else if (innerMovement && isNearCenterBlock(entity, block) && baseGravityDirection.equals(Direction.NORTH) && (entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition."+movementDirectionHorizontal) || entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition."+movementDirectionVertical))) {
+                    GravityChangerAPI.setBaseGravityDirection(entity, Grav);
+                    entity.sendSystemMessage(Component.literal(String.valueOf("north to east")));
+                    return;
+                }
+                else if (entity.level().getBlockState(block).isCollisionShapeFullBlock(entity.level(), block) && shouldAttach) {
+                    GravityChangerAPI.setBaseGravityDirection(entity, Grav);
+                    entity.sendSystemMessage(Component.literal(String.valueOf("east2")));
+                    return;
+                }
+            }
+
+            if (!baseGravityDirection.equals(Direction.WEST)) {
+                BlockPos block = blockPos.west();
+                Grav = Direction.WEST;
+                BlockPos blockDirectionPos = block.south();
+
+                if (baseGravityDirection.equals(Direction.DOWN) && entity.getDirection().equals(Grav)) {
+                    shouldAttach = entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition.up");
+                }
+                else if (!baseGravityDirection.equals(Direction.DOWN)) {
+                    shouldAttach = !(entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition.left") || entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition.right"));
+                }
+
+                if (baseGravityDirection.equals(Direction.NORTH)) {
+                    if (entity.level().getBlockState(block).isCollisionShapeFullBlock(entity.level(), block) && entity.level().getBlockState(blockPos.north()).isCollisionShapeFullBlock(entity.level(), blockPos.north())) {
+                        innerMovement = true;
+                    }
+
+                    movementDirectionHorizontal = (flipHorizontal || innerMovement) ? "left" : "right";
+                    movementDirectionVertical = (flipVertical || innerMovement) ? "up" : "down";
+                    blockDirectionPos = block.north();
+                }
+                if (baseGravityDirection.equals(Direction.SOUTH)) {
+                    if (entity.level().getBlockState(block).isCollisionShapeFullBlock(entity.level(), block) && entity.level().getBlockState(blockPos.south()).isCollisionShapeFullBlock(entity.level(), blockPos.south())) {
+                        innerMovement = true;
+                    }
+
+                    movementDirectionHorizontal = (flipHorizontal || innerMovement) ? "right" : "left";
+                    movementDirectionVertical = (flipVertical || innerMovement) ? "down" : "up";
+                }
+
+                if (!entity.level().getBlockState(blockPos.south()).isCollisionShapeFullBlock(entity.level(), blockPos.south()) && !entity.level().getBlockState(block).isCollisionShapeFullBlock(entity.level(), block) && !entity.level().getBlockState(blockDirectionPos.east()).isCollisionShapeFullBlock(entity.level(), blockDirectionPos.east()) && entity.level().getBlockState(blockDirectionPos).isCollisionShapeFullBlock(entity.level(), blockDirectionPos) && (entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition."+movementDirectionHorizontal) || entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition."+movementDirectionVertical))) {
+                    GravityChangerAPI.setBaseGravityDirection(entity, Grav);
+                    entity.getPersistentData().putInt("westGravityCooldown", 20);
+                    entity.sendSystemMessage(Component.literal(String.valueOf("west")));
+                }
+                else if (innerMovement && isNearCenterBlock(entity, block) && baseGravityDirection.equals(Direction.NORTH) && (entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition."+movementDirectionHorizontal) || entity.getPersistentData().getBoolean("Cardinal.HasInputKeyCondition."+movementDirectionVertical))) {
+                    GravityChangerAPI.setBaseGravityDirection(entity, Grav);
+                    entity.sendSystemMessage(Component.literal(String.valueOf("north to west")));
+                }
+                else if (entity.level().getBlockState(block).isCollisionShapeFullBlock(entity.level(), block) && shouldAttach) {
+                    GravityChangerAPI.setBaseGravityDirection(entity, Grav);
+                    entity.sendSystemMessage(Component.literal(String.valueOf("west2")));
+                }
+            }
+        }
     }
 
     @Override
     public void lastTick(LivingEntity entity, AbilityInstance entry, IPowerHolder holder, boolean enabled) {
         if (enabled) {
-            GravityCapabilityImpl comp = GravityChangerAPI.getGravityComponent(entity);
             GravityChangerAPI.setBaseGravityDirection(entity, Direction.DOWN);
         }
     }
@@ -176,6 +234,10 @@ public class SurfaceMovementAbility extends Ability {
     @Override
     public String getDocumentationDescription() {
         return "Allows the user to move on any surface.";
+    }
+
+    public boolean isNearCenterBlock(LivingEntity entity, BlockPos blockPos) {
+        return entity.distanceToSqr(blockPos.getCenter()) < 1.0;
     }
 
     public ArrayList<String> canMoveTo(BlockPos block, LivingEntity entity) {
@@ -203,60 +265,6 @@ public class SurfaceMovementAbility extends Ability {
             return check;
         }
         return null;
-    }
-
-    // when approaching an inward corner, do auto-jump to make it smoothly go forward
-    private static void tryToDoCornerAutoJump(BlockState blockState, BlockPos blockPos, Entity entity, GravityCapabilityImpl comp) {
-        if (!entity.onGround()) {
-            return;
-        }
-
-        // apply levitation when the entity is close to corner
-        Direction entityGravityDir = comp.getCurrGravityDirection();
-
-        for (Direction plateDir : Direction.values()) {
-            if (GravityPlatingBlock.hasDir(blockState, plateDir)) {
-                boolean orthogonal = entityGravityDir.getAxis() != plateDir.getAxis();
-                if (!orthogonal) {
-                    continue;
-                }
-
-                Vec3 plateDirVec = Vec3.atLowerCornerOf(plateDir.getNormal());
-
-                Vec3 effectCenter = Vec3.atCenterOf(blockPos).add(plateDirVec.scale(0.5));
-                Vec3 offset = effectCenter.subtract(entity.position());
-                if (offset.dot(Vec3.atLowerCornerOf(entityGravityDir.getNormal())) > 0) {
-                    // that plate is lower than entity
-                    continue;
-                }
-
-                Vec3 worldVelocity = GravityChangerAPI.getWorldVelocity(entity);
-                if (worldVelocity.dot(plateDirVec) < 0.01) {
-                    continue;
-                }
-
-                double distanceToPlate = Math.abs(entity.position().subtract(effectCenter).dot(plateDirVec));
-                if (distanceToPlate < 0.8) {
-                    double strengthSqrt = Math.sqrt(comp.getCurrGravityStrength());
-
-                    Vec3 entityGravityVec = Vec3.atLowerCornerOf(entityGravityDir.getNormal());
-
-                    Vec3 deltaWorldVelocity =
-                            entityGravityVec.scale(-strengthSqrt * 0.4)
-                                    .add(plateDirVec.scale(0.08));
-
-                    GravityChangerAPI.setWorldVelocity(
-                            entity,
-                            GravityChangerAPI.getWorldVelocity(entity).add(deltaWorldVelocity)
-                    );
-
-                    if (entity.level().isClientSide()) {
-                        //LOGGER.info("Client entity auto-jump on gravity plate corner {}", entity);
-                    }
-                    return;
-                }
-            }
-        }
     }
 
 }

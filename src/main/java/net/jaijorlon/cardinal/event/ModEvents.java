@@ -8,12 +8,18 @@ import net.jaijorlon.cardinal.capabilities.GravityCapabilityImpl;
 import net.jaijorlon.cardinal.command.GravityCommand;
 import net.jaijorlon.cardinal.config.CardinalConfigHandler;
 import net.jaijorlon.cardinal.network.PacketHandler;
+import net.jaijorlon.cardinal.network.packet.C2SHasCollisionPacket;
+import net.jaijorlon.cardinal.network.packet.C2SHasInputKeyConditionPacket;
 import net.jaijorlon.cardinal.util.GCUtil;
 import net.jaijorlon.cardinal.util.PalladiumPropertyUtil;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
@@ -33,7 +39,45 @@ public class ModEvents {
         public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
             Player player = event.player;
 
-            PalladiumPropertyUtil.setValue(player, "gravityDir", GravityChangerAPI.getGravityDirection(player).getName().toLowerCase());
+            if (player.level().isClientSide()) {
+                BlockPos blockPos = player.blockPosition();
+                Vec3 playerPos = player.position();
+
+                boolean northValid = false;
+                boolean southValid = false;
+                boolean eastValid = false;
+                boolean westValid = false;
+
+                boolean upValid = false;
+                boolean downValid = false;
+
+                if (player.level().getBlockState(blockPos.north()).isCollisionShapeFullBlock(player.level(), blockPos.north())) {
+                    northValid = playerPos.distanceTo(blockPos.north().getCenter()) < 1;
+                }
+
+                if (player.level().getBlockState(blockPos.south()).isCollisionShapeFullBlock(player.level(), blockPos.south())) {
+                    southValid = playerPos.distanceTo(blockPos.south().getCenter()) < 1;
+                }
+
+                if (player.level().getBlockState(blockPos.east()).isCollisionShapeFullBlock(player.level(), blockPos.east())) {
+                    eastValid = playerPos.distanceTo(blockPos.east().getCenter()) < 1;
+                }
+
+                if (player.level().getBlockState(blockPos.west()).isCollisionShapeFullBlock(player.level(), blockPos.west())) {
+                    westValid = playerPos.distanceTo(blockPos.west().getCenter()) < 1;
+                }
+
+                if (player.level().getBlockState(blockPos.above()).isCollisionShapeFullBlock(player.level(), blockPos.above())) {
+                    upValid = playerPos.distanceTo(blockPos.above().getCenter()) < 1;
+                }
+
+                if (player.level().getBlockState(blockPos.below()).isCollisionShapeFullBlock(player.level(), blockPos.below())) {
+                    downValid = playerPos.distanceTo(blockPos.below().getCenter()) < 1;
+                }
+
+                PacketHandler.sendToServer(new C2SHasCollisionPacket("Horizontal", northValid || southValid || eastValid || westValid));
+                PacketHandler.sendToServer(new C2SHasCollisionPacket("Vertical", upValid || downValid));
+            };
 
             if (!AbilityUtil.isTypeEnabled(player, CardinalAbilities.SURFACE_MOVEMENT.get()) && !player.getPersistentData().getBoolean("cardinalGravityReset")) {
                 GravityChangerAPI.setBaseGravityDirection(player, Direction.DOWN);

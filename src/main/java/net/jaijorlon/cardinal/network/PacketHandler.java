@@ -1,6 +1,7 @@
 package net.jaijorlon.cardinal.network;
 
 import net.jaijorlon.cardinal.Cardinal;
+import net.jaijorlon.cardinal.network.packet.C2SHasCollisionPacket;
 import net.jaijorlon.cardinal.network.packet.C2SHasInputKeyConditionPacket;
 import net.jaijorlon.cardinal.network.packet.C2SMouseClickConditionPacket;
 import net.minecraft.server.level.ServerPlayer;
@@ -17,6 +18,7 @@ public class PacketHandler {
         int packetId = 0;
         INSTANCE.messageBuilder(C2SMouseClickConditionPacket.class, packetId++, NetworkDirection.PLAY_TO_SERVER).decoder(C2SMouseClickConditionPacket::new).encoder(C2SMouseClickConditionPacket::encode).consumerMainThread(C2SMouseClickConditionPacket::handle).add();
         INSTANCE.messageBuilder(C2SHasInputKeyConditionPacket.class, packetId++, NetworkDirection.PLAY_TO_SERVER).decoder(C2SHasInputKeyConditionPacket::new).encoder(C2SHasInputKeyConditionPacket::encode).consumerMainThread(C2SHasInputKeyConditionPacket::handle).add();
+        INSTANCE.messageBuilder(C2SHasCollisionPacket.class, packetId++, NetworkDirection.PLAY_TO_SERVER).decoder(C2SHasCollisionPacket::new).encoder(C2SHasCollisionPacket::encode).consumerMainThread(C2SHasCollisionPacket::handle).add();
         Cardinal.LOGGER.info("finished registering packets up to id-"+packetId);
     }
 
