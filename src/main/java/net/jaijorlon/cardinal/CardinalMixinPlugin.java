@@ -44,6 +44,9 @@ public class CardinalMixinPlugin implements IMixinConfigPlugin {
         }
         for (String mixin : PalladiumNeedingMixins) {
             if (mixinClassName.equalsIgnoreCase(mixin)) {
+                if (!HAS_PALLADIUM) {
+                    Cardinal.LOGGER.warn("Palladium mixin {} has been removed", mixin);
+                }
                 return HAS_PALLADIUM;
             }
         }
@@ -57,6 +60,7 @@ public class CardinalMixinPlugin implements IMixinConfigPlugin {
             MixinService.getService().getBytecodeProvider().getClassNode(name);
             return true;
         } catch (ClassNotFoundException | IOException e) {
+            Cardinal.LOGGER.error("Failed to load class " + name, e);
             return false;
         }
     }
