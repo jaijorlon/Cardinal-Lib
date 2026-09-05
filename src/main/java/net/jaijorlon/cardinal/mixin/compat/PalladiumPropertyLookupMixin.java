@@ -13,8 +13,8 @@ public class PalladiumPropertyLookupMixin {
      * @author Jaijorlon
      * @reason registers integer array property
      */
-    @Inject(method = "<init>", at = @At("TAIL"), remap = false)
-    private void registerIntegerArrayProperty(CallbackInfo ci) {
+    @Inject(method = "<clinit>", at = @At("TAIL"), remap = false)
+    private static void registerIntegerArrayProperty(CallbackInfo ci) {
         PalladiumPropertyLookup.register("integer_array", IntegerArrayProperty::new);
     }
 
