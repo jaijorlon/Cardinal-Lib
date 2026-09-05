@@ -270,7 +270,7 @@ public class GravityCapabilityImpl implements IGravityCapability {
         }
     }
     
-    private void sendSyncPacketToOtherPlayers() 
+    public void sendSyncPacketToOtherPlayers()
     {
 		if(!this.entity.level().isClientSide)
 		{
