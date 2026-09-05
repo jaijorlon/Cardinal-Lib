@@ -11,10 +11,15 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
-public class GravityMixinPlugin implements IMixinConfigPlugin {
+public class CardinalMixinPlugin implements IMixinConfigPlugin {
 
     private static final boolean HAS_AC;
     private static final boolean HAS_PALLADIUM;
+    private static final String[] PalladiumNeedingMixins = new String[] {
+            "net.jaijorlon.cardinal.mixin.compat.PalladiumEntityRenderDispatcherMixin",
+            "net.jaijorlon.cardinal.mixin.compat.PalladiumPropertyMixin",
+            "net.jaijorlon.cardinal.mixin.compat.PalladiumPropertyLookupMixin"
+    };
 
     static {
         HAS_AC = hasClass("com.github.alexmodguy.alexscaves.AlexsCaves");
@@ -37,9 +42,12 @@ public class GravityMixinPlugin implements IMixinConfigPlugin {
         if (mixinClassName.equalsIgnoreCase("net.jaijorlon.cardinal.mixin.compat.ACEntityMixin")) {
             return HAS_AC;
         }
-        if (mixinClassName.equalsIgnoreCase("net.jaijorlon.cardinal.mixin.compat.PalladiumEntityRenderDispatcherMixin")) {
-            return HAS_PALLADIUM;
+        for (String mixin : PalladiumNeedingMixins) {
+            if (mixinClassName.equalsIgnoreCase(mixin)) {
+                return HAS_PALLADIUM;
+            }
         }
+
         return true;
     }
 

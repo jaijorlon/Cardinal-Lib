@@ -7,7 +7,7 @@
   "injectors": {
     "defaultRequire": 1
   },
-  "plugin": "net.jaijorlon.cardinal.GravityMixinPlugin",
+  "plugin": "net.jaijorlon.cardinal.CardinalMixinPlugin",
   "mixins": [
     "AbstractArrowMixin",
     "AbstractHorseMixin",
@@ -59,6 +59,8 @@
     "WitchMixin",
     "WitherBossMixin",
     "compat.ACEntityMixin",
+    "compat.PalladiumPropertyLookupMixin",
+    "compat.PalladiumPropertyMixin",
     "fall_distance.ServerGamePacketListenerImplMixin",
     "fall_distance.ServerPlayerMixin_FallDistance",
     "forge.MixinForgeHooks",
