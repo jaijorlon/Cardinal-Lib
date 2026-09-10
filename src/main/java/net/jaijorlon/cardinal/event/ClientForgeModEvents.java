@@ -16,6 +16,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
@@ -25,6 +26,42 @@ import org.lwjgl.glfw.GLFW;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, modid = Cardinal.MOD_ID, value = Dist.CLIENT)
 public class ClientForgeModEvents {
+
+    @SubscribeEvent
+    public static void onClientTick(TickEvent.ClientTickEvent event) {
+        if (ModList.get().isLoaded("palladium")) {
+            Minecraft mc = Minecraft.getInstance();
+
+            if (mc.getConnection() != null) {
+                if (net.threetag.palladium.power.ability.AbilityUtil.isTypeEnabled(mc.player, CardinalAbilities.PREVENT_MOVEMENT_INPUT.get())) {
+
+                    if (mc.options.keyUp.isDown()) {
+                        mc.options.keyUp.setDown(false);
+                    }
+
+                    if (mc.options.keyDown.isDown()) {
+                        mc.options.keyDown.setDown(false);
+                    }
+
+                    if (mc.options.keyLeft.isDown()) {
+                        mc.options.keyLeft.setDown(false);
+                    }
+
+                    if (mc.options.keyRight.isDown()) {
+                        mc.options.keyRight.setDown(false);
+                    }
+
+                    if (mc.options.keyJump.isDown()) {
+                        mc.options.keyJump.setDown(false);
+                    }
+
+                    if (mc.options.keySprint.isDown()) {
+                        mc.options.keySprint.setDown(false);
+                    }
+                }
+            }
+        }
+    }
 
     static boolean reverseR = false;
     static boolean reverseG = false;
@@ -178,33 +215,6 @@ public class ClientForgeModEvents {
                 } else {
                     PacketHandler.sendToServer(new C2SHasInputKeyConditionPacket("smooth_camera", false));
                 }
-            }
-
-            if (!net.threetag.palladium.power.ability.AbilityUtil.isTypeEnabled(mc.player, CardinalAbilities.PREVENT_MOVEMENT_INPUT.get()))
-                return;
-
-            if (mc.options.keyUp.isDown()) {
-                mc.options.keyUp.setDown(false);
-            }
-
-            if (mc.options.keyDown.isDown()) {
-                mc.options.keyDown.setDown(false);
-            }
-
-            if (mc.options.keyLeft.isDown()) {
-                mc.options.keyLeft.setDown(false);
-            }
-
-            if (mc.options.keyRight.isDown()) {
-                mc.options.keyRight.setDown(false);
-            }
-
-            if (mc.options.keyJump.isDown()) {
-                mc.options.keyJump.setDown(false);
-            }
-
-            if (mc.options.keySprint.isDown()) {
-                mc.options.keySprint.setDown(false);
             }
         }
     }
