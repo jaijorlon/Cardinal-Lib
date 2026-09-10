@@ -34,30 +34,17 @@ public class ClientForgeModEvents {
 
             if (mc.getConnection() != null) {
                 if (net.threetag.palladium.power.ability.AbilityUtil.isTypeEnabled(mc.player, CardinalAbilities.PREVENT_MOVEMENT_INPUT.get())) {
+                    mc.options.keyUp.setDown(false);
 
-                    if (mc.options.keyUp.isDown()) {
-                        mc.options.keyUp.setDown(false);
-                    }
+                    mc.options.keyDown.setDown(false);
 
-                    if (mc.options.keyDown.isDown()) {
-                        mc.options.keyDown.setDown(false);
-                    }
+                    mc.options.keyLeft.setDown(false);
 
-                    if (mc.options.keyLeft.isDown()) {
-                        mc.options.keyLeft.setDown(false);
-                    }
+                    mc.options.keyRight.setDown(false);
 
-                    if (mc.options.keyRight.isDown()) {
-                        mc.options.keyRight.setDown(false);
-                    }
+                    mc.options.keyJump.setDown(false);
 
-                    if (mc.options.keyJump.isDown()) {
-                        mc.options.keyJump.setDown(false);
-                    }
-
-                    if (mc.options.keySprint.isDown()) {
-                        mc.options.keySprint.setDown(false);
-                    }
+                    mc.options.keySprint.setDown(false);
                 }
             }
         }
