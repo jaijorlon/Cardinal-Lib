@@ -97,11 +97,6 @@ public class ModEvents {
         @SubscribeEvent
         public static void onEntityJoinLevel(EntityJoinLevelEvent event) {
             Entity entity = event.getEntity();
-            if (ModList.get().isLoaded("palladium")) {
-                net.threetag.palladium.event.PalladiumEvents.REGISTER_PROPERTY.register(handler -> {
-                    PalladiumPropertyUtil.registerProperty(handler, "forDoTestProperty", "boolean", false);
-                });
-            }
 
             GCUtil.ENTITY_MAP.put(entity.getClass().hashCode(), entity);
             GCUtil.ENTITY_MAP2.put(entity.getClass().getSuperclass().hashCode(), entity);
