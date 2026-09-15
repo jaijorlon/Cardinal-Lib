@@ -10,15 +10,19 @@ import net.jaijorlon.cardinal.config.CardinalConfigHandler;
 import net.jaijorlon.cardinal.network.PacketHandler;
 import net.jaijorlon.cardinal.network.packet.C2SHasCollisionPacket;
 import net.jaijorlon.cardinal.network.packet.C2SHasInputKeyConditionPacket;
+import net.jaijorlon.cardinal.network.packet.C2SMovingTowardsAxisPacket;
 import net.jaijorlon.cardinal.util.GCUtil;
 import net.jaijorlon.cardinal.util.PalladiumPropertyUtil;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
@@ -41,6 +45,28 @@ public class ModEvents {
 
             if (ModList.get().isLoaded("palladium")) {
                 if (player.level().isClientSide()) {
+                    if (player instanceof LocalPlayer localPlayer) {
+                        Vec2 vec2 = localPlayer.input.getMoveVector();
+                        float f2 = vec2.x;
+                        float f3 = vec2.y;
+                        float f4 = Mth.sin(player.getYRot() * ((float)Math.PI / 180F));
+                        float f5 = Mth.cos(player.getYRot() * ((float)Math.PI / 180F));
+                        Vec2 movingDirection = new Vec2((f2 * f5 - f3 * f4), (f3 * f5 + f2 * f4));
+
+                        if (Math.round(movingDirection.x) == 1) {
+                            PacketHandler.sendToServer(new C2SMovingTowardsAxisPacket("x"));
+                        } else if (Math.round(movingDirection.x) == -1) {
+                            PacketHandler.sendToServer(new C2SMovingTowardsAxisPacket("-x"));
+                        } else if (Math.round(movingDirection.y) == 1) {
+                            PacketHandler.sendToServer(new C2SMovingTowardsAxisPacket("z"));
+                        } else if (Math.round(movingDirection.y) == -1) {
+                            PacketHandler.sendToServer(new C2SMovingTowardsAxisPacket("-z"));
+                        } else {
+                            PacketHandler.sendToServer(new C2SMovingTowardsAxisPacket(""));
+                        }
+                    }
+
+
                     BlockPos blockPos = player.blockPosition();
                     Vec3 playerPos = player.position();
 
