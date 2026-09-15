@@ -53,13 +53,18 @@ public class ModEvents {
                         float f5 = Mth.cos(player.getYRot() * ((float)Math.PI / 180F));
                         Vec2 movingDirection = new Vec2((f2 * f5 - f3 * f4), (f3 * f5 + f2 * f4));
 
-                        if (Math.round(movingDirection.x) == 1) {
+                        double x = String.valueOf(Math.ceil(movingDirection.x)).equals("-0.0") ? -1 : Math.ceil(movingDirection.x);
+                        double y = String.valueOf(Math.ceil(movingDirection.y)).equals("-0.0") ? -1 : Math.ceil(movingDirection.y);
+
+                        player.sendSystemMessage(Component.literal(String.valueOf(x)));
+
+                        if (x == 1) {
                             PacketHandler.sendToServer(new C2SMovingTowardsAxisPacket("x"));
-                        } else if (Math.round(movingDirection.x) == -1) {
+                        } else if (x == -1) {
                             PacketHandler.sendToServer(new C2SMovingTowardsAxisPacket("-x"));
-                        } else if (Math.round(movingDirection.y) == 1) {
+                        } else if (y == 1) {
                             PacketHandler.sendToServer(new C2SMovingTowardsAxisPacket("z"));
-                        } else if (Math.round(movingDirection.y) == -1) {
+                        } else if (y == -1) {
                             PacketHandler.sendToServer(new C2SMovingTowardsAxisPacket("-z"));
                         } else {
                             PacketHandler.sendToServer(new C2SMovingTowardsAxisPacket(""));
