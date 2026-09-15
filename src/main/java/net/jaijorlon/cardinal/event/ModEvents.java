@@ -56,8 +56,6 @@ public class ModEvents {
                         double x = String.valueOf(Math.ceil(movingDirection.x)).equals("-0.0") ? -1 : Math.ceil(movingDirection.x);
                         double y = String.valueOf(Math.ceil(movingDirection.y)).equals("-0.0") ? -1 : Math.ceil(movingDirection.y);
 
-                        player.sendSystemMessage(Component.literal(String.valueOf(x)));
-
                         if (x == 1) {
                             PacketHandler.sendToServer(new C2SMovingTowardsAxisPacket("x"));
                         } else if (x == -1) {
