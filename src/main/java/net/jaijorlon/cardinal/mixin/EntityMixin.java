@@ -334,7 +334,7 @@ public abstract class EntityMixin {
         if (gravityDirection == Direction.DOWN) {
             return vec3d;
         }
-        
+
         return RotationUtil.vecWorldToPlayer(vec3d, gravityDirection);
     }
     

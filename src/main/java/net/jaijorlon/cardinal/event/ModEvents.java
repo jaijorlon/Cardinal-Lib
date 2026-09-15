@@ -65,45 +65,6 @@ public class ModEvents {
                             PacketHandler.sendToServer(new C2SMovingTowardsAxisPacket(""));
                         }
                     }
-
-
-                    BlockPos blockPos = player.blockPosition();
-                    Vec3 playerPos = player.position();
-
-                    boolean northValid = false;
-                    boolean southValid = false;
-                    boolean eastValid = false;
-                    boolean westValid = false;
-
-                    boolean upValid = false;
-                    boolean downValid = false;
-
-                    if (player.level().getBlockState(blockPos.north()).isCollisionShapeFullBlock(player.level(), blockPos.north())) {
-                        northValid = playerPos.distanceTo(blockPos.north().getCenter()) < 1;
-                    }
-
-                    if (player.level().getBlockState(blockPos.south()).isCollisionShapeFullBlock(player.level(), blockPos.south())) {
-                        southValid = playerPos.distanceTo(blockPos.south().getCenter()) < 1;
-                    }
-
-                    if (player.level().getBlockState(blockPos.east()).isCollisionShapeFullBlock(player.level(), blockPos.east())) {
-                        eastValid = playerPos.distanceTo(blockPos.east().getCenter()) < 1;
-                    }
-
-                    if (player.level().getBlockState(blockPos.west()).isCollisionShapeFullBlock(player.level(), blockPos.west())) {
-                        westValid = playerPos.distanceTo(blockPos.west().getCenter()) < 1;
-                    }
-
-                    if (player.level().getBlockState(blockPos.above()).isCollisionShapeFullBlock(player.level(), blockPos.above())) {
-                        upValid = playerPos.distanceTo(blockPos.above().getCenter()) < 1;
-                    }
-
-                    if (player.level().getBlockState(blockPos.below()).isCollisionShapeFullBlock(player.level(), blockPos.below())) {
-                        downValid = playerPos.distanceTo(blockPos.below().getCenter()) < 1;
-                    }
-
-                    PacketHandler.sendToServer(new C2SHasCollisionPacket("Horizontal", northValid || southValid || eastValid || westValid));
-                    PacketHandler.sendToServer(new C2SHasCollisionPacket("Vertical", upValid || downValid));
                 }
 
                 if (!AbilityUtil.isTypeEnabled(player, CardinalAbilities.SURFACE_MOVEMENT.get()) && !player.getPersistentData().getBoolean("cardinalGravityReset")) {

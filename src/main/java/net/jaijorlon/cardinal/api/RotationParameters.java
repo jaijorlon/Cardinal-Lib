@@ -1,7 +1,5 @@
 package net.jaijorlon.cardinal.api;
 
-import net.jaijorlon.cardinal.config.CardinalConfig;
-
 import net.jaijorlon.cardinal.config.CardinalConfigHandler;
 import net.minecraft.nbt.CompoundTag;
 
@@ -10,9 +8,7 @@ public record RotationParameters(
     boolean rotateView, // currently ignores this
     int rotationTimeMS
 ) {
-    public static RotationParameters defaultParam = new RotationParameters(
-        true, true, 500
-    );
+    public static RotationParameters defaultParam = new RotationParameters(true, true, 500);
     
     public static void updateDefault() {
         defaultParam = new RotationParameters(

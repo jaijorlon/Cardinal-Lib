@@ -1,5 +1,8 @@
 package net.jaijorlon.cardinal.mixin;
 
+import net.jaijorlon.cardinal.ability.CardinalAbilities;
+import net.minecraft.network.chat.Component;
+import net.threetag.palladium.power.ability.AbilityUtil;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -96,7 +99,7 @@ public abstract class PlayerMixin extends LivingEntity {
     //}
     
     @Redirect(
-        method = "Lnet/minecraft/world/entity/player/Player;drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity;",
+        method = "drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity;",
         at = @At(
             value = "NEW",
             target = "(Lnet/minecraft/world/level/Level;DDDLnet/minecraft/world/item/ItemStack;)Lnet/minecraft/world/entity/item/ItemEntity;",
@@ -128,7 +131,7 @@ public abstract class PlayerMixin extends LivingEntity {
     }
     
     @WrapOperation(
-        method = "Lnet/minecraft/world/entity/player/Player;drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity;",
+        method = "drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity;",
         at = @At(
             value = "INVOKE",
             target = "Lnet/minecraft/world/entity/item/ItemEntity;setDeltaMovement(DDD)V"
@@ -146,23 +149,23 @@ public abstract class PlayerMixin extends LivingEntity {
     }
     
     @Inject(
-        method = "Lnet/minecraft/world/entity/player/Player;maybeBackOffFromEdge(Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/entity/MoverType;)Lnet/minecraft/world/phys/Vec3;",
+        method = "maybeBackOffFromEdge(Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/entity/MoverType;)Lnet/minecraft/world/phys/Vec3;",
         at = @At("HEAD"),
         cancellable = true
     )
     private void inject_adjustMovementForSneaking(Vec3 movement, MoverType type, CallbackInfoReturnable<Vec3> cir) {
-        Entity this_ = (Entity) (Object) this;
-        Direction gravityDirection = GravityChangerAPI.getGravityDirection(this_);
+        Player player = (Player) (Object) this;
+        Direction gravityDirection = GravityChangerAPI.getGravityDirection(player);
         if (gravityDirection == Direction.DOWN) return;
         
         Vec3 playerMovement = RotationUtil.vecWorldToPlayer(movement, gravityDirection);
-        
+
         if (!this.abilities.flying && (type == MoverType.SELF || type == MoverType.PLAYER) && this.isStayingOnGroundSurface() && this.isAboveGround()) {
             double d = playerMovement.x;
             double e = playerMovement.z;
             double var7 = 0.05D;
             
-            while (d != 0.0D && this_.level().noCollision(this, this.getBoundingBox().move(RotationUtil.vecPlayerToWorld(d, (double) (-this.maxUpStep()), 0.0D, gravityDirection)))) {
+            while (d != 0.0D && player.level().noCollision(this, this.getBoundingBox().move(RotationUtil.vecPlayerToWorld(d, (double) (-this.maxUpStep()), 0.0D, gravityDirection)))) {
                 if (d < 0.05D && d >= -0.05D) {
                     d = 0.0D;
                 }
@@ -174,7 +177,7 @@ public abstract class PlayerMixin extends LivingEntity {
                 }
             }
             
-            while (e != 0.0D && this_.level().noCollision(this, this.getBoundingBox().move(RotationUtil.vecPlayerToWorld(0.0D, (double) (-this.maxUpStep()), e, gravityDirection)))) {
+            while (e != 0.0D && player.level().noCollision(this, this.getBoundingBox().move(RotationUtil.vecPlayerToWorld(0.0D, (double) (-this.maxUpStep()), e, gravityDirection)))) {
                 if (e < 0.05D && e >= -0.05D) {
                     e = 0.0D;
                 }
@@ -186,7 +189,7 @@ public abstract class PlayerMixin extends LivingEntity {
                 }
             }
             
-            while (d != 0.0D && e != 0.0D && this_.level().noCollision(this, this.getBoundingBox().move(RotationUtil.vecPlayerToWorld(d, (double) (-this.maxUpStep()), e, gravityDirection)))) {
+            while (d != 0.0D && e != 0.0D && player.level().noCollision(this, this.getBoundingBox().move(RotationUtil.vecPlayerToWorld(d, (double) (-this.maxUpStep()), e, gravityDirection)))) {
                 if (d < 0.05D && d >= -0.05D) {
                     d = 0.0D;
                 }

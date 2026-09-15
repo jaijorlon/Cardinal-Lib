@@ -1,6 +1,8 @@
 package net.jaijorlon.cardinal.capabilities;
 
+import net.jaijorlon.cardinal.ability.CardinalAbilities;
 import net.jaijorlon.cardinal.config.CardinalConfigHandler;
+import net.threetag.palladium.power.ability.AbilityUtil;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -364,7 +366,13 @@ public class GravityCapabilityImpl implements IGravityCapability {
         Vec3 newPos = rotationCenter.subtract(RotationUtil.vecPlayerToWorld(relativeRotationCenter, newGravity));
         Vec3 posTranslation = newPos.subtract(oldPos);
         Vec3 newLastTickPos = oldLastTickPos.add(posTranslation);
-        
+
+        if (entity instanceof LivingEntity livingEntity) {
+            if (AbilityUtil.isTypeEnabled(livingEntity, CardinalAbilities.SURFACE_MOVEMENT.get())) {
+                this.noPositionAdjust = true;
+            }
+        }
+
         if(!this.noPositionAdjust)
         {
             entity.setPos(newPos);
@@ -394,9 +402,22 @@ public class GravityCapabilityImpl implements IGravityCapability {
         Vec3 realWorldVelocity = getRealWorldVelocity(entity, oldGravity);
         if (rotationParameters.rotateVelocity()) {
             // Rotate velocity with gravity, this will cause things to appear to take a sharp turn
-            Vector3f worldSpaceVec = realWorldVelocity.toVector3f();
-            worldSpaceVec.rotate(RotationUtil.getRotationBetween(oldGravity, newGravity));
-            entity.setDeltaMovement(RotationUtil.vecWorldToPlayer(new Vec3(worldSpaceVec), newGravity));
+            if (entity instanceof LivingEntity livingEntity) {
+                if (AbilityUtil.isTypeEnabled(livingEntity, CardinalAbilities.SURFACE_MOVEMENT.get())) {
+                    // Velocity will be conserved relative to the world, will result in more natural motion
+                    entity.setDeltaMovement(RotationUtil.vecWorldToPlayer(realWorldVelocity, newGravity));
+                }
+                else {
+                    Vector3f worldSpaceVec = realWorldVelocity.toVector3f();
+                    worldSpaceVec.rotate(RotationUtil.getRotationBetween(oldGravity, newGravity));
+                    entity.setDeltaMovement(RotationUtil.vecWorldToPlayer(new Vec3(worldSpaceVec), newGravity));
+                }
+            }
+            else {
+                Vector3f worldSpaceVec = realWorldVelocity.toVector3f();
+                worldSpaceVec.rotate(RotationUtil.getRotationBetween(oldGravity, newGravity));
+                entity.setDeltaMovement(RotationUtil.vecWorldToPlayer(new Vec3(worldSpaceVec), newGravity));
+            }
         }
         else {
             // Velocity will be conserved relative to the world, will result in more natural motion

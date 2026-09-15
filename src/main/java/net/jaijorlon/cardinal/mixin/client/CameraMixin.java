@@ -47,11 +47,7 @@ public abstract class CameraMixin {
             ordinal = 0
         )
     )
-    private void wrapOperation_update_setPos_0(
-        Camera camera, double x, double y, double z,
-        Operation<Void> original, BlockGetter area, Entity focusedEntity,
-        boolean thirdPerson, boolean inverseView, float tickDelta
-    ) {
+    private void wrapOperation_update_setPos_0(Camera camera, double x, double y, double z, Operation<Void> original, BlockGetter area, Entity focusedEntity, boolean thirdPerson, boolean inverseView, float tickDelta) {
         Direction gravityDirection = GravityChangerAPI.getGravityDirection(focusedEntity);
         RotationAnimation animation = GravityChangerAPI.getRotationAnimation(focusedEntity);
         
@@ -91,7 +87,7 @@ public abstract class CameraMixin {
     }
     
     @Inject(
-        method = "Lnet/minecraft/client/Camera;setRotation(FF)V",
+        method = "setRotation(FF)V",
         at = @At(
             value = "INVOKE",
             target = "Lorg/joml/Quaternionf;rotationYXZ(FFF)Lorg/joml/Quaternionf;",
