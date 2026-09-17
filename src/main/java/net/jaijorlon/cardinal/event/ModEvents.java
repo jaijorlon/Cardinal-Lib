@@ -56,13 +56,15 @@ public class ModEvents {
                         double x = String.valueOf(Math.ceil(movingDirection.x)).equals("-0.0") ? -1 : Math.ceil(movingDirection.x);
                         double y = String.valueOf(Math.ceil(movingDirection.y)).equals("-0.0") ? -1 : Math.ceil(movingDirection.y);
 
-                        if (x == 1) {
+                        boolean greaterX = Math.abs(movingDirection.x) > Math.abs(movingDirection.y);
+                        boolean greaterY = Math.abs(movingDirection.y) > Math.abs(movingDirection.x);
+                        if (x == 1 && greaterX) {
                             PacketHandler.sendToServer(new C2SMovingTowardsAxisPacket("x"));
-                        } else if (x == -1) {
+                        } else if (x == -1 && greaterX) {
                             PacketHandler.sendToServer(new C2SMovingTowardsAxisPacket("-x"));
-                        } else if (y == 1) {
+                        } else if (y == 1 && greaterY) {
                             PacketHandler.sendToServer(new C2SMovingTowardsAxisPacket("z"));
-                        } else if (y == -1) {
+                        } else if (y == -1 && greaterY) {
                             PacketHandler.sendToServer(new C2SMovingTowardsAxisPacket("-z"));
                         } else {
                             PacketHandler.sendToServer(new C2SMovingTowardsAxisPacket(""));
