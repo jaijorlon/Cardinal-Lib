@@ -15,16 +15,19 @@ import net.jaijorlon.cardinal.network.GravityNetwork;
 import net.jaijorlon.cardinal.config.CardinalConfig;
 
 import com.mojang.logging.LogUtils;
+import net.jaijorlon.cardinal.network.PacketHandler;
 import net.minecraft.commands.synchronization.ArgumentTypeInfos;
 import net.minecraft.commands.synchronization.SingletonArgumentInfo;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig.Type;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
@@ -39,44 +42,9 @@ public class Cardinal {
 
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        ctx.registerConfig(Type.COMMON, CardinalConfig.SPEC, "cardinal.toml");
-
-        CardinalItems.ITEMS.register(bus);
-        CardinalBlocks.BLOCKS.register(bus);
-        CardinalBlocks.BLOCK_ENTITIES.register(bus);
-        CardinalMobEffects.EFFECTS.register(bus);
-        CardinalMobEffects.POTIONS.register(bus);
-        CardinalCreativeTabs.CREATIVE_MODE_TAB.register(bus);
-
-        ArgumentTypeInfos.registerByClass(OperationArgumentType.class, SingletonArgumentInfo.contextFree(OperationArgumentType::new));
-        ArgumentTypeInfos.registerByClass(DirectionArgumentType.class, SingletonArgumentInfo.contextFree(DirectionArgumentType::new));
-        ArgumentTypeInfos.registerByClass(LocalDirectionArgumentType.class, SingletonArgumentInfo.contextFree(LocalDirectionArgumentType::new));
-
         if (ModList.get().isLoaded("palladium")) {
-            net.threetag.palladiumcore.event.CommandEvents.REGISTER.register((dispatcher, selection) -> {
-                PalladiumPropertyCommand.register(dispatcher);
-            });
-
             net.threetag.palladiumcore.forge.PalladiumCoreForge.registerModEventBus(Cardinal.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
-            CardinalAbilities.ABILITIES.register();
-            CardinalConditionSerializers.CONDITION_SERIALIZERS.register();
-            CardinalPalladiumProperties.init();
         }
-
-        GravityNetwork.registerMessages();
-        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, GravityCapabilities::attachEntityCapability);
-    }
-
-    public static void init() {
-        if (ModList.get().isLoaded("palladium")) {
-            CardinalAbilities.ABILITIES.register();
-            CardinalConditionSerializers.CONDITION_SERIALIZERS.register();
-            CardinalPalladiumProperties.init();
-        }
-
-        ModLoadingContext ctx = ModLoadingContext.get();
-
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
         ctx.registerConfig(Type.COMMON, CardinalConfig.SPEC, "cardinal.toml");
 
@@ -87,6 +55,8 @@ public class Cardinal {
         CardinalMobEffects.POTIONS.register(bus);
         CardinalCreativeTabs.CREATIVE_MODE_TAB.register(bus);
 
+        MinecraftForge.EVENT_BUS.register(this);
+
         ArgumentTypeInfos.registerByClass(OperationArgumentType.class, SingletonArgumentInfo.contextFree(OperationArgumentType::new));
         ArgumentTypeInfos.registerByClass(DirectionArgumentType.class, SingletonArgumentInfo.contextFree(DirectionArgumentType::new));
         ArgumentTypeInfos.registerByClass(LocalDirectionArgumentType.class, SingletonArgumentInfo.contextFree(LocalDirectionArgumentType::new));
@@ -95,6 +65,10 @@ public class Cardinal {
             net.threetag.palladiumcore.event.CommandEvents.REGISTER.register((dispatcher, selection) -> {
                 PalladiumPropertyCommand.register(dispatcher);
             });
+
+            CardinalAbilities.ABILITIES.register();
+            CardinalConditionSerializers.CONDITION_SERIALIZERS.register();
+            CardinalPalladiumProperties.init();
         }
 
         GravityNetwork.registerMessages();
