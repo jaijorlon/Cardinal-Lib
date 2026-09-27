@@ -24,8 +24,19 @@ public abstract class GravityChangerAPI {
         if (comp == null) {
             return Direction.DOWN;
         }
-        
         return comp.getCurrGravityDirection();
+    }
+
+    /**
+     * Returns the previous applied gravity direction for the given entity
+     */
+    public static Direction getPrevGravityDirection(Entity entity) {
+        GravityCapabilityImpl comp = getGravityComponentEarly(entity);
+        if (comp == null) {
+            return Direction.DOWN;
+        }
+
+        return comp.getPrevGravityDirection();
     }
     
     public static double getGravityStrength(Entity entity) {

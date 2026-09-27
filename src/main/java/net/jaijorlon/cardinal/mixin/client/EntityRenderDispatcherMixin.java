@@ -1,11 +1,13 @@
 package net.jaijorlon.cardinal.mixin.client;
 
+import net.jaijorlon.cardinal.Cardinal;
 import net.jaijorlon.cardinal.ability.CardinalAbilities;
 import net.minecraft.world.entity.LivingEntity;
 import org.joml.Quaternionf;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -35,6 +37,9 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 @Mixin(EntityRenderDispatcher.class)
 public abstract class EntityRenderDispatcherMixin {
     @Shadow
@@ -56,9 +61,9 @@ public abstract class EntityRenderDispatcherMixin {
             shift = At.Shift.AFTER
         )
     )
-    private void inject_render_0(Entity entity, double x, double y, double z, float yaw, float tickDelta, PoseStack matrices, MultiBufferSource vertexConsumers, int light, CallbackInfo ci) {
+    private void inject_render_0(Entity entity, double x, double y, double z, float yaw, float particalTick, PoseStack matrices, MultiBufferSource vertexConsumers, int light, CallbackInfo ci) {
         if (!(entity instanceof Projectile) && !(entity instanceof ExperienceOrb) && EntityTags.allowGravityTransformationInRendering(entity)) {
-            Direction gravityDirection = GravityChangerAPI.getGravityDirection(entity);
+            Direction gravityDirection = GravityChangerAPI.getPrevGravityDirection(entity);
             if (!this.shouldRenderShadow) return;
             
             matrices.pushPose();
@@ -66,7 +71,7 @@ public abstract class EntityRenderDispatcherMixin {
             if (animation == null) {
                 return;
             }
-            long timeMs = entity.level().getGameTime() * 50 + (long) (tickDelta * 50);
+            long timeMs = (long) (entity.level().getGameTime() * 50 + Mth.lerp(particalTick, 0, 50));
             matrices.mulPose(new Quaternionf(animation.getCurrentGravityRotation(gravityDirection, timeMs)).conjugate());
         }
     }

@@ -53,14 +53,14 @@ public abstract class GameRendererMixin {
     private void renderLevel(float p_109090_, long p_109091_, PoseStack p_109092_, CallbackInfo ci) {
         if (this.mainCamera.getEntity() != null) {
             Entity focusedEntity = this.mainCamera.getEntity();
-            Direction gravityDirection = GravityChangerAPI.getGravityDirection(focusedEntity);
+            Direction gravityDirection = GravityChangerAPI.getPrevGravityDirection(focusedEntity);
             RotationAnimation animation = GravityChangerAPI.getRotationAnimation(focusedEntity);
             // Only override vanilla when a gravity transform/animation is active
             if (animation == null || (gravityDirection == Direction.DOWN && !animation.isInAnimation())) {
                 return;
             }
             ci.cancel();
-            long timeMs = focusedEntity.level().getGameTime() * 50 + (long) (p_109090_ * 50);
+            long timeMs = focusedEntity.level().getGameTime() * 50 + (long) Mth.lerp(p_109090_, 0, 50);
             Quaternionf currentGravityRotation = animation.getCurrentGravityRotation(gravityDirection, timeMs);
 
 			if (animation.isInAnimation()) {

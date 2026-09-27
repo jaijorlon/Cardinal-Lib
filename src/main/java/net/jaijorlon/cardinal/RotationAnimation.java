@@ -111,13 +111,13 @@ public class RotationAnimation {
      * To get the rotation that applies entity, conjugate it.
      */
     public Quaternionf getCurrentGravityRotation(Direction currentGravity, long timeMs) {
-        
+
         update(timeMs);
-        
+
         if (!inAnimation) {
             return RotationUtil.getWorldRotationQuaternion(currentGravity);
         }
-        
+
         double delta = (double) (timeMs - startTimeMs) / (endTimeMs - startTimeMs);
         
         return RotationUtil.interpolate(
