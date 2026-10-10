@@ -113,6 +113,23 @@ public class ModEvents {
                 }
             }
         }
+
+        @SubscribeEvent
+        public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
+            Player player = event.getEntity();
+
+            if (player.isPassenger() && player.getVehicle() instanceof Player)
+                player.stopRiding();
+        }
+
+        @SubscribeEvent
+        public void onPlayerChangeGamemode(PlayerEvent.PlayerChangeGameModeEvent event) {
+            Player player = event.getEntity();
+
+            if (player.isVehicle()) {
+                Objects.requireNonNull(player.getFirstPassenger()).stopRiding();
+            }
+        }
     }
 
     @Mod.EventBusSubscriber(modid = Cardinal.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
