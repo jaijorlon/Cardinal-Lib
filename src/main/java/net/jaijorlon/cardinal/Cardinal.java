@@ -37,16 +37,14 @@ public class Cardinal {
 	public static final String MOD_ID = "cardinal";
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    public Cardinal() {
-        ModLoadingContext ctx = ModLoadingContext.get();
-
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+    public Cardinal(FMLJavaModLoadingContext context) {
+        IEventBus bus = context.getModEventBus();
 
         if (ModList.get().isLoaded("palladium")) {
-            net.threetag.palladiumcore.forge.PalladiumCoreForge.registerModEventBus(Cardinal.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
+            net.threetag.palladiumcore.forge.PalladiumCoreForge.registerModEventBus(Cardinal.MOD_ID, context.getModEventBus());
         }
 
-        ctx.registerConfig(Type.COMMON, CardinalConfig.SPEC, "cardinal.toml");
+        context.registerConfig(Type.COMMON, CardinalConfig.SPEC, "cardinal.toml");
 
         CardinalItems.ITEMS.register(bus);
         CardinalBlocks.BLOCKS.register(bus);
